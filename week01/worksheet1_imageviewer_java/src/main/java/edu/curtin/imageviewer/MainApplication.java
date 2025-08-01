@@ -16,7 +16,7 @@ public class MainApplication extends Application
         Application.launch(args); // Run JavaFX
         // This will effectively do 'new MainApplication()' and then call 'start(...)'.
     }
-    
+
     /**
      * Loads an image album and then creates a window to display it.
      */
@@ -25,13 +25,13 @@ public class MainApplication extends Application
     {
         // Construct an album object.
         Album album = new Album();
-        
+
         // Make a new window.
-        MainWindow window = new MainWindow(album, stage);        
-        
+        MainWindow window = new MainWindow(album, stage);
+
         // Choose which album to load.
         File albumFile = window.chooseAlbumFile();
-        
+
         if(albumFile == null)
         {
             Platform.exit(); // Otherwise JavaFX keeps the program open, doing nothing.
@@ -42,7 +42,7 @@ public class MainApplication extends Application
             {
                 // Attempt to read an album file.
                 readAlbumFile(albumFile, album);
-                
+
                 // Display the window.
                 window.show();
             }
@@ -53,14 +53,14 @@ public class MainApplication extends Application
             }
         }
     }
-    
+
     /**
      * Reads an album file, given a filename and an Album object. Returns true if
      * successful, or false if the file could not be read.
      *
      * @param albumFile The file storing the list of image filenames and their captions.
      * @param album An Album object to populate.
-     * 
+     *
      * @throws IOException If the file could not be read.
      */
     private static void readAlbumFile(File albumFile, Album album) throws IOException
@@ -73,17 +73,21 @@ public class MainApplication extends Application
                 if(line.trim().length() > 0) // Ignore blank lines
                 {
                     String[] parts = line.split(":", 2);
-                    
+
                     String imageFilename = albumFile.getParent() + File.separatorChar + parts[0];
                     String imageCaption = "";
                     if(parts.length == 2)
                     {
                         imageCaption = parts[1];
                     }
-                    
-                    // FIXME: Insert your code here to add a new image to the album.
+
+                    // Create ImageRecord object
+                    ImageRecord imageRecord = new ImageRecord(imageFilename, imageCaption);
+
+                    // Add object into album
+                    album.addImage(imageRecord);
                 }
-                            
+
                 line = reader.readLine();
             }
         }
