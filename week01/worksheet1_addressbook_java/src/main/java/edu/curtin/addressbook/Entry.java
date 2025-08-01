@@ -24,6 +24,10 @@ public class Entry
         }
     }
 
+    public boolean containsAddress(String address) {
+        return addresses.contains(address);
+    }
+
     public String toString()
     {
         return this.name + " " + this.addresses.toString();
