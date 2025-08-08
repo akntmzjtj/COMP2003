@@ -22,14 +22,24 @@ public class AddressBookApp
 
         try
         {
-            AddressBook addressBook = readAddressBook(fileName);
-            showMenu(addressBook);
+            // Instantiate AddressBookApp object
+            AddressBookApp app = new AddressBookApp();
+
+            // create new AddressBook
+            AddressBook addressBook = app.readAddressBook(fileName);
+            app.showMenu(addressBook);
         }
         catch(IOException e)
         {
             System.out.println("Could not read from " + fileName + ": " + e
                 .getMessage());
         }
+    }
+
+    // AddressBookApp constructor
+    public AddressBookApp()
+    {
+
     }
 
     /**
@@ -39,7 +49,7 @@ public class AddressBookApp
      * @return A new AddressBook object containing all the information.
      * @throws IOException If the file cannot be read.
      */
-    private static AddressBook readAddressBook(String fileName)
+    public AddressBook readAddressBook(String fileName)
         throws IOException
     {
         AddressBook addressBook = new AddressBook();
@@ -77,7 +87,7 @@ public class AddressBookApp
      *
      * @param addressBook The AddressBook object to search.
      */
-    private static void showMenu(AddressBook addressBook)
+    public void showMenu(AddressBook addressBook)
     {
         boolean done = false;
 
