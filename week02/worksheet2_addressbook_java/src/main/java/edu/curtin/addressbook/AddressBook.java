@@ -35,11 +35,33 @@ public class AddressBook
 
             if(entry.containsAddress(address))
             {
-                return entries.get(name);
+                return entries.get(name).toString();
             }
         }
 
         return null;
+    }
+
+    public String getAllEntries()
+    {
+        String out = "";
+        Entry entryString[] = new Entry[entries.size()];
+
+        int j = 0;
+        for(Entry e : entries.values())
+        {
+            entryString[j] = e;
+            j++;
+        }
+
+        for(int i = 0; i < entryString.length - 1; i++)
+        {
+            out += entryString[i].toString() + "\n";
+        }
+
+        out += entryString[entryString.length - 1];
+
+        return out;
     }
 
     public String toString()
