@@ -21,12 +21,12 @@ public class AddressBook
         entries.put(name, entry);
     }
 
-    public Entry getEntryByName(String name)
+    public String getEntryByName(String name)
     {
-        return entries.get(name);
+        return entries.get(name).toString();
     }
 
-    public Entry getEntryByAddress(String address)
+    public String getEntryByAddress(String address)
     {
         for(var kv : entries.entrySet())
         {
