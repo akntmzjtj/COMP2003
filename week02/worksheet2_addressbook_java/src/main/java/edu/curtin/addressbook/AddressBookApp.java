@@ -5,6 +5,7 @@ import java.util.*;
 
 /**
  * A simple address book application.
+ *
  * @author Dave and ...
  */
 public class AddressBookApp
@@ -26,7 +27,8 @@ public class AddressBookApp
         }
         catch(IOException e)
         {
-            System.out.println("Could not read from " + fileName + ": " + e.getMessage());
+            System.out.println("Could not read from " + fileName + ": " + e
+                .getMessage());
         }
     }
 
@@ -37,11 +39,13 @@ public class AddressBookApp
      * @return A new AddressBook object containing all the information.
      * @throws IOException If the file cannot be read.
      */
-    private static AddressBook readAddressBook(String fileName) throws IOException
+    private static AddressBook readAddressBook(String fileName)
+        throws IOException
     {
         AddressBook addressBook = new AddressBook();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(fileName)))
+        try(BufferedReader reader = new BufferedReader(new FileReader(
+            fileName)))
         {
             String line = reader.readLine();
             while(line != null)
@@ -50,12 +54,14 @@ public class AddressBookApp
 
                 // Note:
                 // parts[0] contains the person's name.
-                // parts[1], parts[2], etc. contain the person's email address(es).
+                // parts[1], parts[2], etc. contain the person's email
+                // address(es).
 
                 line = reader.readLine();
 
                 // Create Entry object
-                Entry temp = new Entry(parts[0], Arrays.copyOfRange(parts, 1, parts.length));
+                Entry temp = new Entry(parts[0], Arrays.copyOfRange(parts, 1,
+                    parts.length));
 
                 // Add entry into AddressBook
                 addressBook.addEntry(parts[0], temp);
@@ -74,43 +80,47 @@ public class AddressBookApp
     private static void showMenu(AddressBook addressBook)
     {
         boolean done = false;
+
+        // Create a map of Options
+        HashMap<Integer, Option> options = new HashMap<>();
+
+        // Initialise map
+        options.put(1, new SearchByName(addressBook));
+        options.put(2, new SearchByEmail(addressBook));
+        options.put(3, new SearchAll(addressBook));
+
         while(!done)
         {
-            int option;
-            System.out.println("(1) Search by name, (2) Search by email, (3) Quit");
+            int optionNum;
+            String searchTerm = "";
+            System.out.println(
+                "(1) Search by name, (2) Search by email, (3) Search all, (4) Exit");
 
             try
             {
-                Entry entry;
+                optionNum = Integer.parseInt(input.nextLine());
 
-                switch(Integer.parseInt(input.nextLine()))
+                // If option exists in Map container
+                if(options.containsKey(optionNum))
                 {
-                    case 1:
-                        System.out.print("Enter name: ");
-                        String name = input.nextLine();
+                    Option o = options.get(optionNum);
+                    // Ask for search term if required
+                    if(o.requiresText())
+                    {
+                        System.out.print("Enter search term: ");
+                        searchTerm = input.nextLine();
+                    }
 
-                        // Find entry
-                        entry = addressBook.getEntryByName(name);
-
-                        System.out.println(entry);
-
-                        break;
-
-                    case 2:
-                        System.out.print("Enter email address: ");
-                        String email = input.nextLine();
-
-                        entry = addressBook.getEntryByAddress(email);
-                        System.out.println(entry);
-                        break;
-
-                    case 3:
-                        done = true;
-                        break;
-
-                    default:
-                        System.out.println("Enter a valid number");
-                        break;
+                    // Run search
+                    System.out.println(o.doOption(searchTerm));;
+                }
+                else if(optionNum == 4)
+                {
+                    done = true;
+                }
+                else
+                {
+                    System.out.println("Enter a valid number");
                 }
             }
             catch(NumberFormatException e)
