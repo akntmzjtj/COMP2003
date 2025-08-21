@@ -1,0 +1,22 @@
+package edu.curtin.directorymetrics;
+
+public class CriterionText implements Criterion
+{
+
+    private String text;
+
+    public CriterionText(String text)
+    {
+        this.text = text;
+    }
+
+    public boolean findMatch(String sample)
+    {
+        if(sample.contains(text))
+        {
+            return true;
+        }
+
+        return false;
+    }
+}

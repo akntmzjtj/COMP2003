@@ -2,12 +2,12 @@ package edu.curtin.directorymetrics;
 
 public interface Node
 {
-    void display(String indent);
+    void searchMatches(
+        String indent, String pathname, Criteria c, ReportSearch r
+    );
 
-    // Move this method into another class for use of either Strategy/Template
-    // pattern
-    default void display()
+    default void searchMatches(Criteria c, ReportSearch r)
     {
-        display("");
+        searchMatches("", "", c, r);
     }
 }

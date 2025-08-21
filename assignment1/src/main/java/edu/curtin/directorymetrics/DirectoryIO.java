@@ -6,15 +6,22 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import java.util.Scanner;
 
 public class DirectoryIO
 {
     public Node readDirectory(String dir, Scanner debug)
+        throws IllegalArgumentException
     {
         // Create File object with directory given
         File rootDir = new File(dir);
+
+        // Throw exception if 'dir' does not exist or is not a directory
+        if(!rootDir.exists() || !rootDir.isDirectory())
+        {
+            throw new IllegalArgumentException(
+                "Directory provided does not exist or is not a directory.");
+        }
 
         // Temporary map to create directory tree and add first entry
         Map<String, DirectoryNode> map = new HashMap<>();
@@ -29,13 +36,6 @@ public class DirectoryIO
             File temp = queue.poll();
             File[] tempFiles = temp.listFiles();
             Arrays.sort(tempFiles);
-
-            // System.out.println(temp.getPath() + ":");
-            // for(File file : tempFiles)
-            // {
-            // System.out.println(" " + file.getName());
-            // }
-            // debug.nextLine();
 
             for(File file : tempFiles)
             {

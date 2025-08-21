@@ -1,5 +1,6 @@
 package edu.curtin.directorymetrics;
 
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -22,31 +23,31 @@ public class DirectoryMetrics
             // boolean hasExit = false;
             // while(!hasExit)
             // {
-            //     System.out.println("\n    Menu:");
-            //     System.out.println("    1. Set Criteria");
-            //     System.out.println("    2. Set Output");
-            //     System.out.println("    3. Report");
-            //     System.out.println("    0. Quit");
-            //     System.out.print("    Option: ");
+            // System.out.println("\n Menu:");
+            // System.out.println(" 1. Set Criteria");
+            // System.out.println(" 2. Set Output");
+            // System.out.println(" 3. Report");
+            // System.out.println(" 0. Quit");
+            // System.out.print(" Option: ");
 
-            //     String option = input.nextLine();
+            // String option = input.nextLine();
 
-            //     switch (option)
-            //     {
-            //         case "1":
-            //             break;
-            //         case "2":
-            //             break;
-            //         case "3":
-            //             break;
-            //         case "0":
-            //             hasExit = true;
-            //             break;
-            //         default:
-            //             System.out.println("The option " + option
-            //                 + " chosen does not exist.");
-            //             break;
-            //     }
+            // switch (option)
+            // {
+            // case "1":
+            // break;
+            // case "2":
+            // break;
+            // case "3":
+            // break;
+            // case "0":
+            // hasExit = true;
+            // break;
+            // default:
+            // System.out.println("The option " + option
+            // + " chosen does not exist.");
+            // break;
+            // }
 
             // }
             //
@@ -55,7 +56,14 @@ public class DirectoryMetrics
             Node root = directoryIO.readDirectory(
                 "/Users/joshuaorbon/Desktop/COMP2003/assignment1", input);
 
-            root.display();
+            Criteria c = new Criteria();
+            c.addCriterion("+ t Hello");
+            c.addCriterion("+ t public");
+            c.addCriterion("+ r abstract|interface");
+            c.addCriterion("+ r (abc");
+            // c.addCriterion("* t //");
+
+            root.searchMatches(c, new ReportSearchShow());
         }
     }
 }

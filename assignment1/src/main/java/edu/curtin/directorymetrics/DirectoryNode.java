@@ -19,23 +19,25 @@ public class DirectoryNode implements Node
     }
 
     @Override
-    public void display(String indent)
+    public void searchMatches(String indent, String pathname, Criteria c, ReportSearch r)
     {
-        System.out.println(indent + file.getName() + " (" + directories.size()
-            + "):");
+        // Add folder to path
+        pathname += String.format("%s%s:\n", indent, this.file.getName());
+
+        // System.out.println(indent + file.getName() + " (" + directories.size()
+        //     + "):");
 
         // Recurse into directories
         for(Node dir : this.directories)
         {
-            dir.display(indent + INDENT);
+            dir.searchMatches(indent + INDENT, pathname, c, r);
         }
 
         // Recurse into files
         for(Node file : files)
         {
-            file.display(indent + INDENT);
+            file.searchMatches(indent + INDENT, pathname, c, r);
         }
-
     }
 
     public void addDirectory(Node node)
