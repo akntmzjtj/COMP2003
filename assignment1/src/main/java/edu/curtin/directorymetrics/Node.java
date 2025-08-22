@@ -1,13 +1,15 @@
 package edu.curtin.directorymetrics;
 
+import java.util.Stack;
+
 public interface Node
 {
     void searchMatches(
-        String indent, String pathname, Criteria c, ReportSearch r
+        String indent, Stack<String> path, Criteria c, ReportSearch r
     );
 
     default void searchMatches(Criteria c, ReportSearch r)
     {
-        searchMatches("", "", c, r);
+        searchMatches("", new Stack<>(), c, r);
     }
 }

@@ -60,10 +60,10 @@ public class DirectoryMetrics
             c.addCriterion("+ t Hello");
             c.addCriterion("+ t public");
             c.addCriterion("+ r abstract|interface");
-            c.addCriterion("+ r (abc");
+            // c.addCriterion("+ r (abc");
             // c.addCriterion("* t //");
 
-            root.searchMatches(c, new ReportSearchShow());
+            root.searchMatches(c, new ReportSearchCount());
         }
     }
 }

@@ -2,8 +2,8 @@ package edu.curtin.directorymetrics;
 
 import java.io.File;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.LinkedList;
-
 public class DirectoryNode implements Node
 {
     private final static String INDENT = "   ";
@@ -19,10 +19,12 @@ public class DirectoryNode implements Node
     }
 
     @Override
-    public void searchMatches(String indent, String pathname, Criteria c, ReportSearch r)
+    public void searchMatches(String indent, Stack<String> path, Criteria c, ReportSearch r)
     {
+        String currentPath = String.format("%s%s:\n", indent, this.file.getName());
+
         // Add folder to path
-        pathname += String.format("%s%s:\n", indent, this.file.getName());
+        path.push(currentPath);
 
         // System.out.println(indent + file.getName() + " (" + directories.size()
         //     + "):");
@@ -30,13 +32,19 @@ public class DirectoryNode implements Node
         // Recurse into directories
         for(Node dir : this.directories)
         {
-            dir.searchMatches(indent + INDENT, pathname, c, r);
+            dir.searchMatches(indent + INDENT, path, c, r);
         }
 
         // Recurse into files
         for(Node file : files)
         {
-            file.searchMatches(indent + INDENT, pathname, c, r);
+            file.searchMatches(indent + INDENT, path, c, r);
+        }
+
+        // If recursion has not found any matches, remove directory from path
+        if(!path.isEmpty() && path.peek().equals(currentPath))
+        {
+            path.pop();
         }
     }
 

@@ -1,6 +1,7 @@
 package edu.curtin.directorymetrics;
 
 import java.io.File;
+import java.util.Stack;
 
 public class FileNode implements Node
 {
@@ -13,7 +14,7 @@ public class FileNode implements Node
     }
 
     @Override
-    public void searchMatches(String indent, String pathname, Criteria c, ReportSearch r)
+    public void searchMatches(String indent, Stack<String> path, Criteria c, ReportSearch r)
     {
         // Grab matches using criteria
         LineMatch[] matches = c.findMatchInFile(this.file);
@@ -22,13 +23,20 @@ public class FileNode implements Node
         if(matches != null && matches.length > 0)
         {
             // Add file to pathname
-            pathname += String.format("%s%s:", indent, this.file.getName());
+            path.add(String.format("%s%s:", indent, this.file.getName()));
 
             // Print path
-            System.out.print(pathname);
+            // System.out.print(pathname);
+            for(String s : path)
+            {
+                System.out.print(s);
+            }
 
             // Print report
             r.printReport(matches, indent + INDENT);
+
+            // Reset pathname
+            path.removeAllElements();
         }
     }
 }
