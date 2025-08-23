@@ -26,11 +26,6 @@ public class DirectoryNode implements Node
         return this.matchesCount;
     }
 
-    public void setMatchesCount(int matchesCount)
-    {
-        this.matchesCount = matchesCount;
-    }
-
     @Override
     public void searchMatches(Criteria c)
     {
