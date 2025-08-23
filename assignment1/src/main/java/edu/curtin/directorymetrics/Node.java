@@ -1,15 +1,20 @@
 package edu.curtin.directorymetrics;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 public interface Node
 {
-    void searchMatches(
-        String indent, Stack<String> path, Criteria c, ReportSearch r
-    );
+    int getMatchesCount();
 
-    default void searchMatches(Criteria c, ReportSearch r)
+    void setMatchesCount(int matchesCount);
+
+    void searchMatches(Criteria c);
+
+    void displayMatches(String indent);
+
+    default void displayMatches()
     {
-        searchMatches("", new Stack<>(), c, r);
+        displayMatches("");
     }
 }

@@ -2,49 +2,72 @@ package edu.curtin.directorymetrics;
 
 import java.io.File;
 import java.util.Queue;
-import java.util.Stack;
+import java.util.List;
 import java.util.LinkedList;
+
 public class DirectoryNode implements Node
 {
     private final static String INDENT = "   ";
     private File file;
     private Queue<Node> directories;
     private Queue<Node> files;
+    private int matchesCount;
 
     public DirectoryNode(File file)
     {
         this.file = file;
         this.directories = new LinkedList<>();
         this.files = new LinkedList<>();
+        this.matchesCount = 0;
+    }
+
+    public int getMatchesCount()
+    {
+        return this.matchesCount;
+    }
+
+    public void setMatchesCount(int matchesCount)
+    {
+        this.matchesCount = matchesCount;
     }
 
     @Override
-    public void searchMatches(String indent, Stack<String> path, Criteria c, ReportSearch r)
+    public void searchMatches(Criteria c)
     {
-        String currentPath = String.format("%s%s:\n", indent, this.file.getName());
-
-        // Add folder to path
-        path.push(currentPath);
-
-        // System.out.println(indent + file.getName() + " (" + directories.size()
-        //     + "):");
-
         // Recurse into directories
         for(Node dir : this.directories)
         {
-            dir.searchMatches(indent + INDENT, path, c, r);
+            dir.searchMatches(c);
+            this.matchesCount += dir.getMatchesCount();
         }
 
         // Recurse into files
         for(Node file : files)
         {
-            file.searchMatches(indent + INDENT, path, c, r);
+            file.searchMatches(c);
+            this.matchesCount += file.getMatchesCount();
         }
+    }
 
-        // If recursion has not found any matches, remove directory from path
-        if(!path.isEmpty() && path.peek().equals(currentPath))
+    @Override
+    public void displayMatches(String indent)
+    {
+        if(this.matchesCount > 0)
         {
-            path.pop();
+            System.out.println(indent + this.file.getName() + ": "
+                + this.matchesCount);
+
+            // Recurse into directories
+            for(Node dir : this.directories)
+            {
+                dir.displayMatches(indent + INDENT);
+            }
+
+            // Recurse into files
+            for(Node file : files)
+            {
+                file.displayMatches(indent + INDENT);
+            }
         }
     }
 

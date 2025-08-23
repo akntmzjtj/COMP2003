@@ -1,42 +1,47 @@
 package edu.curtin.directorymetrics;
 
 import java.io.File;
-import java.util.Stack;
+import java.util.List;
 
 public class FileNode implements Node
 {
     private final static String INDENT = "   ";
     private File file;
+    private int matchesCount;
 
     public FileNode(File file)
     {
         this.file = file;
+        this.matchesCount = 0;
+    }
+
+    public int getMatchesCount()
+    {
+        return this.matchesCount;
+    }
+
+    public void setMatchesCount(int matchesCount)
+    {
+        this.matchesCount = matchesCount;
     }
 
     @Override
-    public void searchMatches(String indent, Stack<String> path, Criteria c, ReportSearch r)
+    public void searchMatches(Criteria c)
     {
         // Grab matches using criteria
         LineMatch[] matches = c.findMatchInFile(this.file);
 
-        // If file doesn't satisfy criteria, don't print
-        if(matches != null && matches.length > 0)
+        // Update matchesCount
+        this.matchesCount = matches.length;
+    }
+
+    @Override
+    public void displayMatches(String indent)
+    {
+        if(this.matchesCount > 0)
         {
-            // Add file to pathname
-            path.add(String.format("%s%s:", indent, this.file.getName()));
-
-            // Print path
-            // System.out.print(pathname);
-            for(String s : path)
-            {
-                System.out.print(s);
-            }
-
-            // Print report
-            r.printReport(matches, indent + INDENT);
-
-            // Reset pathname
-            path.removeAllElements();
+            System.out.println(indent + this.file.getName() + ": "
+                + this.matchesCount);
         }
     }
 }
