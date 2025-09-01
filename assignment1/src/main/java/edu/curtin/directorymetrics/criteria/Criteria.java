@@ -62,22 +62,11 @@ public class Criteria
                 "Second argument must be 't' or 'r'.");
         }
 
-        // Create criterion
-        boolean isInclusion = false;
-        boolean isExpression = false;
-
-        if(inputArray[0].equals("+"))
-        {
-            isInclusion = true;
-        }
-
-        if(inputArray[1].equals("r"))
-        {
-            isExpression = true;
-        }
-
+        // Create Criterion object
         Criterion c = null;
-        if(isExpression)
+
+        // Check if the user provided a regular expression
+        if(inputArray[1].equals("r"))
         {
             c = new CriterionExpression(inputArray[2]);
         }
@@ -86,7 +75,8 @@ public class Criteria
             c = new CriterionText(inputArray[2]);
         }
 
-        if(isInclusion)
+        // Add to criterias list
+        if(inputArray[0].equals("+"))
         {
             this.inclusions.add(c);
         }
