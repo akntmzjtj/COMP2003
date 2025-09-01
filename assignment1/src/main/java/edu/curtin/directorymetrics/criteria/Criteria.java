@@ -90,7 +90,7 @@ public class Criteria
         throws IllegalArgumentException
     {
         // Throw exception when both inclusions and exclusions list are empty
-        if(this.inclusions == null && this.exclusions == null)
+        if(this.inclusions.isEmpty() && this.exclusions.isEmpty())
         {
             throw new IllegalStateException(
                 "No criterions to be checked against.");
