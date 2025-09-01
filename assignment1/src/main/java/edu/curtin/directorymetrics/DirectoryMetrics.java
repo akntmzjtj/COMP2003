@@ -16,26 +16,40 @@ public class DirectoryMetrics
 {
     public static void main(String[] args)
     {
-        // Read directory and store into map
-        Map<String, Node> nodeMap = new HashMap<>();
+        String directoryPath = null;
 
-        DirectoryIO nodeIO = new DirectoryIO();
-        nodeMap.put("count", nodeIO.readDirectory(
-            "/Users/joshuaorbon/Desktop/COMP2003/assignment1", true)); // true
-                                                                       // if
-                                                                       // count
-        nodeMap.put("show", nodeIO.readDirectory(
-            "/Users/joshuaorbon/Desktop/COMP2003/assignment1", false)); // false
-                                                                        // if
-                                                                        // show
-                                                                        // lines
-
-        // Start app
-        DirectoryMetrics app = new DirectoryMetrics();
-        try(Scanner input = new Scanner(System.in);)
+        if(args.length == 0)
         {
-            // Show menu and grab input
-            app.menu(input, nodeMap);
+            directoryPath = ".";
+        }
+        else if(args.length == 1)
+        {
+            directoryPath = args[0];
+        }
+        else
+        {
+            System.out.println("Too many arguments supplied.");
+        }
+
+        if(directoryPath != null)
+        {
+            // Read directory and store into map
+            Map<String, Node> nodeMap = new HashMap<>();
+
+            DirectoryIO nodeIO = new DirectoryIO();
+            // true if count
+            nodeMap.put("count", nodeIO.readDirectory(directoryPath, true));
+
+            // false if show lines
+            nodeMap.put("show", nodeIO.readDirectory(directoryPath, false));
+
+            // Start app
+            DirectoryMetrics app = new DirectoryMetrics();
+            try(Scanner input = new Scanner(System.in);)
+            {
+                // Show menu and grab input
+                app.menu(input, nodeMap);
+            }
         }
     }
 
