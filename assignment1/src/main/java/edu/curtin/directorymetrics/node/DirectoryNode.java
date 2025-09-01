@@ -31,6 +31,9 @@ public abstract class DirectoryNode implements Node
     @Override
     public void searchMatches(Criteria c)
     {
+        // Reset matchesCount
+        this.matchesCount = 0;
+
         // Recurse into directories
         for(Node dir : this.directories)
         {
