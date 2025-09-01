@@ -61,10 +61,12 @@ public class DirectoryMetrics
         Node currentDir = nodeMap.get(currentOutput);
 
         Criteria c = new Criteria();
+        c.addCriterion("+ r .*"); // default criterion
+
         // DEBUG
-        c.addCriterion("+ t Hello");
-        c.addCriterion("+ t public");
-        c.addCriterion("+ r abstract|interface");
+        // c.addCriterion("+ t Hello");
+        // c.addCriterion("+ t public");
+        // c.addCriterion("+ r abstract|interface");
         // c.addCriterion("+ r (abc");
         // c.addCriterion("* t //");
 
@@ -83,6 +85,11 @@ public class DirectoryMetrics
             switch (option)
             {
                 case "1":
+                    // create new Criteria object
+                    c = new Criteria();
+
+                    // set criteria
+                    setCriteria(input, c);
                     break;
                 case "2":
                     currentOutput = setOutput(input, currentOutput);
@@ -131,5 +138,32 @@ public class DirectoryMetrics
         }
 
         return null;
+    }
+
+    private void setCriteria(Scanner input, Criteria c)
+    {
+        System.out.println("\n === Set Criteria ===");
+        System.out.println(" Format: +/- t/r <the text or regex>");
+        System.out.println(
+            " + include, - exclude, t for plain text, r for regular expression.");
+        System.out.println(" (Enter blank line to save criterions and exit)");
+
+        boolean blankLineEntered = false;
+        while(!blankLineEntered)
+        {
+            // Enter criterion
+            System.out.print(" ==> ");
+            String criterionString = input.nextLine();
+
+            if(criterionString.isBlank())
+            {
+                blankLineEntered = true;
+            }
+            else
+            {
+                // Add to Criteria object
+                c.addCriterion(criterionString);
+            }
+        }
     }
 }
