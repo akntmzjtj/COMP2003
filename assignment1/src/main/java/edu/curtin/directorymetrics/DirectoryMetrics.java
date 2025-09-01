@@ -1,5 +1,7 @@
 package edu.curtin.directorymetrics;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import edu.curtin.directorymetrics.criteria.Criteria;
@@ -14,61 +16,106 @@ public class DirectoryMetrics
 {
     public static void main(String[] args)
     {
-        new DirectoryMetrics().menu();
+        // Read directory and store into map
+        Map<String, Node> nodeMap = new HashMap<>();
+
+        DirectoryIO nodeIO = new DirectoryIO();
+        nodeMap.put("count", nodeIO.readDirectory(
+            "/Users/joshuaorbon/Desktop/COMP2003/assignment1", true)); // true
+                                                                       // if
+                                                                       // count
+        nodeMap.put("show", nodeIO.readDirectory(
+            "/Users/joshuaorbon/Desktop/COMP2003/assignment1", false)); // false
+                                                                        // if
+                                                                        // show
+                                                                        // lines
+
+        // Start app
+        DirectoryMetrics app = new DirectoryMetrics();
+        try(Scanner input = new Scanner(System.in);)
+        {
+            // Show menu and grab input
+            app.menu(input, nodeMap);
+        }
     }
 
-    public void menu()
+    public void menu(Scanner input, Map<String, Node> nodeMap)
     {
-        try(Scanner input = new Scanner(System.in))
+        System.out.println("======== Directory Metrics ========");
+
+        String currentOutput = "count";
+        Node currentDir = nodeMap.get(currentOutput);
+
+        Criteria c = new Criteria();
+        // DEBUG
+        c.addCriterion("+ t Hello");
+        c.addCriterion("+ t public");
+        c.addCriterion("+ r abstract|interface");
+        // c.addCriterion("+ r (abc");
+        // c.addCriterion("* t //");
+
+        boolean hasExit = false;
+        while(!hasExit)
         {
-            System.out.println("======== Directory Metrics ========");
+            System.out.println("\n Menu:");
+            System.out.println(" 1. Set Criteria");
+            System.out.println(" 2. Set Output");
+            System.out.println(" 3. Report");
+            System.out.println(" 0. Quit");
+            System.out.print(" Option: ");
 
-            // boolean hasExit = false;
-            // while(!hasExit)
-            // {
-            // System.out.println("\n Menu:");
-            // System.out.println(" 1. Set Criteria");
-            // System.out.println(" 2. Set Output");
-            // System.out.println(" 3. Report");
-            // System.out.println(" 0. Quit");
-            // System.out.print(" Option: ");
+            String option = input.nextLine();
 
-            // String option = input.nextLine();
-
-            // switch (option)
-            // {
-            // case "1":
-            // break;
-            // case "2":
-            // break;
-            // case "3":
-            // break;
-            // case "0":
-            // hasExit = true;
-            // break;
-            // default:
-            // System.out.println("The option " + option
-            // + " chosen does not exist.");
-            // break;
-            // }
-
-            // }
-            //
-            // DEBUG
-            DirectoryIO directoryIO = new DirectoryIO();
-            Node root = directoryIO.readDirectory(
-                "/Users/joshuaorbon/Desktop/COMP2003/assignment1", false);
-
-            Criteria c = new Criteria();
-            c.addCriterion("+ t Hello");
-            c.addCriterion("+ t public");
-            c.addCriterion("+ r abstract|interface");
-            // c.addCriterion("+ r (abc");
-            // c.addCriterion("* t //");
-            //
-
-            root.searchMatches(c);
-            root.displayMatches();
+            switch (option)
+            {
+                case "1":
+                    break;
+                case "2":
+                    currentOutput = setOutput(input, currentOutput);
+                    currentDir = nodeMap.get(currentOutput);
+                    break;
+                case "3":
+                    currentDir.searchMatches(c);
+                    currentDir.displayMatches();
+                    break;
+                case "0":
+                    hasExit = true;
+                    break;
+                default:
+                    System.out.println("The option " + option
+                        + " chosen does not exist.");
+                    break;
+            }
         }
+    }
+
+    private String setOutput(Scanner input, String current)
+    {
+        boolean outputChosen = false;
+        while(!outputChosen)
+        {
+            System.out.println("\n Set Output (current - " + current + "):");
+            System.out.println(" 1. Count of matching files");
+            System.out.println(" 2. Show actual matching lines");
+            System.out.println(" 0. Back to menu");
+            System.out.print(" Option: ");
+
+            String output = input.nextLine();
+            switch (output)
+            {
+                case "1":
+                    return "count";
+                case "2":
+                    return "show";
+                case "0":
+                    return current;
+                default:
+                    System.out.println("The output " + output
+                        + " chosen does not exist.");
+                    break;
+            }
+        }
+
+        return null;
     }
 }
