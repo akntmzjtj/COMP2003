@@ -1,17 +1,19 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.node;
 
 import java.io.File;
 import java.util.Queue;
-import java.util.List;
+
+import edu.curtin.directorymetrics.criteria.Criteria;
+
 import java.util.LinkedList;
 
-public class DirectoryNode implements Node
+public abstract class DirectoryNode implements Node
 {
     private final static String INDENT = "   ";
-    private File file;
-    private Queue<Node> directories;
-    private Queue<Node> files;
-    private int matchesCount;
+    protected File file;
+    protected Queue<Node> directories;
+    protected Queue<Node> files;
+    protected int matchesCount;
 
     public DirectoryNode(File file)
     {
@@ -49,8 +51,7 @@ public class DirectoryNode implements Node
     {
         if(this.matchesCount > 0)
         {
-            System.out.println(indent + this.file.getName() + ": "
-                + this.matchesCount);
+            System.out.println(formatName(indent));
 
             // Recurse into directories
             for(Node dir : this.directories)
@@ -65,6 +66,8 @@ public class DirectoryNode implements Node
             }
         }
     }
+
+    protected abstract String formatName(String indent);
 
     public void addDirectory(Node node)
     {

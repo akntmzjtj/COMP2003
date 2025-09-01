@@ -1,7 +1,6 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.node;
 
-import java.util.LinkedList;
-import java.util.List;
+import edu.curtin.directorymetrics.criteria.Criteria;
 
 public interface Node
 {

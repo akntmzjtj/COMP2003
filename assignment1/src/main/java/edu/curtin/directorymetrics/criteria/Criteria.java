@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.criteria;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,7 +135,8 @@ public class Criteria
         }
         catch(IOException io)
         {
-            System.out.println("Failed to read provided file. " + io.getMessage());
+            System.out.println("Failed to read provided file. " + io
+                .getMessage());
         }
 
         return null;

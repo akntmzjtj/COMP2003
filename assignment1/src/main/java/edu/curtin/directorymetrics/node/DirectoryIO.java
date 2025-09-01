@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.node;
 
 import java.io.File;
 import java.util.Arrays;
@@ -6,11 +6,10 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class DirectoryIO
 {
-    public Node readDirectory(String dir, Scanner debug)
+    public Node readDirectory(String dir, boolean isCount)
         throws IllegalArgumentException
     {
         // Create File object with directory given
@@ -23,9 +22,20 @@ public class DirectoryIO
                 "Directory provided does not exist or is not a directory.");
         }
 
-        // Temporary map to create directory tree and add first entry
+        // Temporary map to create directory tree
         Map<String, DirectoryNode> map = new HashMap<>();
-        map.put(rootDir.getPath(), new DirectoryNode(rootDir));
+
+        // Add new DirectoryNode obj (depending on bool)
+        DirectoryNode rootDirNode = null;
+        if(isCount)
+        {
+            rootDirNode = new DirectoryNodeCount(rootDir);
+        }
+        else
+        {
+            rootDirNode = new DirectoryNodeShow(rootDir);
+        }
+        map.put(rootDir.getPath(), rootDirNode);
 
         // Queue for directories to recurse into
         Queue<File> queue = new LinkedList<>();
@@ -46,7 +56,15 @@ public class DirectoryIO
                     queue.add(file);
 
                     // Add to parent directory
-                    DirectoryNode dirNode = new DirectoryNode(file);
+                    DirectoryNode dirNode = null;
+                    if(isCount)
+                    {
+                        dirNode = new DirectoryNodeCount(file);
+                    }
+                    else
+                    {
+                        dirNode = new DirectoryNodeShow(file);
+                    }
                     map.get(temp.getPath()).addDirectory(dirNode);
 
                     // Add to temporary map
@@ -55,7 +73,15 @@ public class DirectoryIO
                 else
                 {
                     // Add to parent directory as a file
-                    FileNode fileNode = new FileNode(file);
+                    FileNode fileNode = null;
+                    if(isCount)
+                    {
+                        fileNode = new FileNodeCount(file);
+                    }
+                    else
+                    {
+                        fileNode = new FileNodeShow(file);
+                    }
                     map.get(temp.getPath()).addFile(fileNode);
                 }
             }

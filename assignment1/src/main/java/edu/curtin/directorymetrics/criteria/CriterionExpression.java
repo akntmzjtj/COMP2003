@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.criteria;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +8,8 @@ public class CriterionExpression implements Criterion
 {
     private Pattern p;
 
-    public CriterionExpression(String expression) throws IllegalArgumentException
+    public CriterionExpression(String expression)
+        throws IllegalArgumentException
     {
         try
         {
@@ -16,7 +17,8 @@ public class CriterionExpression implements Criterion
         }
         catch(PatternSyntaxException pse)
         {
-            throw new IllegalArgumentException("Input is not a regular expression.");
+            throw new IllegalArgumentException(
+                "Input is not a regular expression.");
         }
     }
 

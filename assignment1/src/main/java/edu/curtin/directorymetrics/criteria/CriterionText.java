@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics;
+package edu.curtin.directorymetrics.criteria;
 
 public class CriterionText implements Criterion
 {

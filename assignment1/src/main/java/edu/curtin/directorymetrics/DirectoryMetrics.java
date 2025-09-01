@@ -1,7 +1,10 @@
 package edu.curtin.directorymetrics;
 
-import java.io.File;
 import java.util.Scanner;
+
+import edu.curtin.directorymetrics.criteria.Criteria;
+import edu.curtin.directorymetrics.node.DirectoryIO;
+import edu.curtin.directorymetrics.node.Node;
 
 /**
  * Entry point into the application. To change the package, and/or the name of
@@ -54,7 +57,7 @@ public class DirectoryMetrics
             // DEBUG
             DirectoryIO directoryIO = new DirectoryIO();
             Node root = directoryIO.readDirectory(
-                "/Users/joshuaorbon/Desktop/COMP2003/assignment1", input);
+                "/Users/joshuaorbon/Desktop/COMP2003/assignment1", false);
 
             Criteria c = new Criteria();
             c.addCriterion("+ t Hello");
