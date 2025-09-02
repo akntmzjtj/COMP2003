@@ -37,9 +37,9 @@ public class Criteria
      * the format: "+/- r/t <pattern>".
      *
      * @param input The criterion to be added.
-     * @throws CriteriaException if the format is invalid.
+     * @throws IllegalArgumentException if the format is invalid.
      */
-    public void addCriterion(String input) throws CriteriaException
+    public void addCriterion(String input) throws IllegalArgumentException
     {
         // Parse input (+/- r/t regex/text)
         String[] inputArray = input.split(" ", 3);
@@ -47,7 +47,7 @@ public class Criteria
         // Throw exception when array formed does not match specified format
         if(inputArray.length != 3)
         {
-            throw new CriteriaException(
+            throw new IllegalArgumentException(
                 "Criterion provided does not match format.");
         }
 
@@ -55,19 +55,21 @@ public class Criteria
         // Throw exception when first two elements are not valid
         if(!inputArray[0].equals("+") && !inputArray[0].equals("-"))
         {
-            throw new CriteriaException("First argument must be '+' or '-'.");
+            throw new IllegalArgumentException(
+                "First argument must be '+' or '-'.");
         }
 
         // inputArray[1] must either be 't' or 'r'
         if(!inputArray[1].equals("t") && !inputArray[1].equals("r"))
         {
-            throw new CriteriaException("Second argument must be 't' or 'r'.");
+            throw new IllegalArgumentException(
+                "Second argument must be 't' or 'r'.");
         }
 
         // inputArray[2] is blank (does not provide pattern/text)
         if(inputArray[2].isBlank())
         {
-            throw new CriteriaException("Third argument cannot be empty.");
+            throw new IllegalArgumentException("Third argument cannot be empty.");
         }
 
         // Check if the user provided a regular expression
@@ -80,8 +82,8 @@ public class Criteria
             }
             catch(PatternSyntaxException pse)
             {
-                throw new CriteriaException(
-                    "Input could not be compiled into a Pattern object.", pse);
+                throw (IllegalArgumentException)(new IllegalArgumentException(
+                    "Input is not a regular expression.").initCause(pse));
             }
         }
         else // if inputArray[1] is 't' as header guard filters other values
@@ -109,8 +111,9 @@ public class Criteria
      * @param file to be checked.
      * @return An array of LineMatch objects representing matching lines, or
      *         null if an error occurs.
+     * @throws IllegalStateException if no criteria are set.
      */
-    public LineMatch[] findMatchInFile(File file)
+    public LineMatch[] findMatchInFile(File file) throws IllegalStateException
     {
         // Throw exception when both inclusions and exclusions list are empty
         if(this.inclusions.isEmpty() && this.exclusions.isEmpty())
