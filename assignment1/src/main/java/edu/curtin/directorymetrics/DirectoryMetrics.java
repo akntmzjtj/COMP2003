@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import edu.curtin.directorymetrics.criteria.Criteria;
 import edu.curtin.directorymetrics.criteria.CriteriaException;
 import edu.curtin.directorymetrics.node.DirectoryIO;
+import edu.curtin.directorymetrics.node.DirectoryIOException;
 import edu.curtin.directorymetrics.node.Node;
 
 /**
@@ -42,19 +43,34 @@ public class DirectoryMetrics
             // Read directory and store into map
             Map<String, Node> nodeMap = new HashMap<>();
 
-            DirectoryIO nodeIO = new DirectoryIO();
-            // true if count
-            nodeMap.put("count", nodeIO.readDirectory(directoryPath, true));
-
-            // false if show lines
-            nodeMap.put("show", nodeIO.readDirectory(directoryPath, false));
-
-            // Start app
-            DirectoryMetrics app = new DirectoryMetrics();
-            try(Scanner input = new Scanner(System.in);)
+            // TODO: remove the nesting
+            try
             {
-                // Show menu and grab input
-                app.menu(input, nodeMap);
+                // true if count
+                nodeMap.put("count", DirectoryIO.readDirectory(directoryPath,
+                    true));
+
+                // false if show lines
+                nodeMap.put("show", DirectoryIO.readDirectory(directoryPath,
+                    false));
+
+                // Start app
+                DirectoryMetrics app = new DirectoryMetrics();
+                try(Scanner input = new Scanner(System.in);)
+                {
+                    // Show menu and grab input
+                    app.menu(input, nodeMap);
+                }
+            }
+            catch(DirectoryIOException e)
+            {
+                System.out.println(e.getMessage() + " The program will exit.");
+
+                if(logger.isLoggable(Level.WARNING))
+                {
+                    logger.log(Level.WARNING, "'" + directoryPath
+                        + "' could not be read.", e);
+                }
             }
         }
     }

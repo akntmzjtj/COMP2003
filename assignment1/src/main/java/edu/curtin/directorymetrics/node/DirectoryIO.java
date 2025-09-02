@@ -7,10 +7,25 @@ import java.util.Queue;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * A class used for forming a tree using the Node interface and its composite
+ * and leaf implementations.
+ */
 public class DirectoryIO
 {
-    public Node readDirectory(String dir, boolean isCount)
-        throws IllegalArgumentException
+    /**
+     * Creates a tree of Node objects by recursively adding each directory/file
+     * as a child of a DirectoryNode object.
+     *
+     * @param dir     String containing the path to the directory
+     * @param isCount Flag for whether storing 'count' or 'show' implementations
+     *                of the FileNode and DirectoryNode
+     * @return
+     * @throws DirectoryIOException When the provided directory does not exist
+     *                              or points to a file
+     */
+    public static Node readDirectory(String dir, boolean isCount)
+        throws DirectoryIOException
     {
         // Create File object with directory given
         File rootDir = new File(dir);
@@ -18,7 +33,7 @@ public class DirectoryIO
         // Throw exception if 'dir' does not exist or is not a directory
         if(!rootDir.exists() || !rootDir.isDirectory())
         {
-            throw new IllegalArgumentException(
+            throw new DirectoryIOException(
                 "Directory provided does not exist or is not a directory.");
         }
 
