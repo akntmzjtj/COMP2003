@@ -25,13 +25,13 @@ public class CriterionExpression implements Criterion
         this.p = Pattern.compile(expression);
     }
 
-    @Override
     /**
      * Checks if the contents of the line matches the pattern defined at
      * construction.
      *
      * @param sample Contains line from a file
      */
+    @Override
     public boolean findMatch(String sample)
     {
         // Create a Matcher object and pass 'sample'
