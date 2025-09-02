@@ -8,18 +8,9 @@ public class CriterionExpression implements Criterion
 {
     private Pattern p;
 
-    public CriterionExpression(String expression)
-        throws IllegalArgumentException
+    public CriterionExpression(String expression) throws PatternSyntaxException
     {
-        try
-        {
-            this.p = Pattern.compile(expression);
-        }
-        catch(PatternSyntaxException pse)
-        {
-            throw (IllegalStateException)(new IllegalStateException(
-                "Input is not a regular expression.").initCause(pse));
-        }
+        this.p = Pattern.compile(expression);
     }
 
     public boolean findMatch(String sample)

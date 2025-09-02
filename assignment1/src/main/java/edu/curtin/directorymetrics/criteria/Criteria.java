@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Creates an object that can manage inclusions and exclusions for filtering
@@ -69,7 +70,15 @@ public class Criteria
         Criterion c;
         if(inputArray[1].equals("r"))
         {
-            c = new CriterionExpression(inputArray[2]);
+            try
+            {
+                c = new CriterionExpression(inputArray[2]);
+            }
+            catch(PatternSyntaxException pse)
+            {
+                throw (IllegalArgumentException)(new IllegalArgumentException(
+                    "Input is not a regular expression.").initCause(pse));
+            }
         }
         else // if inputArray[1] is 't' as header guard filters other values
         {
