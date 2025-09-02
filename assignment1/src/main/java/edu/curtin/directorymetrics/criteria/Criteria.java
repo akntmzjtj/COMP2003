@@ -8,6 +8,10 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+ * Creates an object that can manage inclusions and exclusions for filtering
+ * text files. The criterions can be added in the specified form.
+ */
 public class Criteria
 {
     private static final Logger logger = Logger.getLogger(Criteria.class
@@ -16,6 +20,9 @@ public class Criteria
     private Queue<Criterion> inclusions;
     private Queue<Criterion> exclusions;
 
+    /**
+     * Constructs a Criteria object with empty inclusion and exclusion lists.
+     */
     public Criteria()
     {
         this.inclusions = new LinkedList<>();
@@ -24,6 +31,13 @@ public class Criteria
         logger.info(() -> "Criteria object constructed.");
     }
 
+    /**
+     * Adds a criterion to the inclusion or exclusion list. The input must be in
+     * the format: "+/- r/t <pattern>".
+     *
+     * @param input The criterion to be added.
+     * @throws IllegalArgumentException if the format is invalid.
+     */
     public void addCriterion(String input) throws IllegalArgumentException
     {
         // Parse input (+/- r/t regex/text)
@@ -75,6 +89,15 @@ public class Criteria
         logger.info(() -> "'" + input + "' added.");
     }
 
+    /**
+     * Checks all lines in a file against the given inclusion and exclusion
+     * patterns
+     *
+     * @param file to be checked.
+     * @return An array of LineMatch objects representing matching lines, or
+     *         null if an error occurs.
+     * @throws IllegalArgumentException if no criteria are set.
+     */
     public LineMatch[] findMatchInFile(File file)
         throws IllegalArgumentException
     {
@@ -120,6 +143,13 @@ public class Criteria
         return null;
     }
 
+    /**
+     * Checks if any of the given criteria match the provided line.
+     *
+     * @param criterions The queue of Criterion objects to check.
+     * @param line       The line of text to test.
+     * @return true if any criterion matches the line, false otherwise.
+     */
     private boolean checkMatch(Queue<Criterion> criterions, String line)
     {
         for(Criterion cri : criterions)
