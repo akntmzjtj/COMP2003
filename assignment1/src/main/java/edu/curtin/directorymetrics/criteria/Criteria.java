@@ -51,10 +51,8 @@ public class Criteria
                 "Second argument must be 't' or 'r'.");
         }
 
-        // Create Criterion object
-        Criterion c = null;
-
         // Check if the user provided a regular expression
+        Criterion c;
         if(inputArray[1].equals("r"))
         {
             c = new CriterionExpression(inputArray[2]);
