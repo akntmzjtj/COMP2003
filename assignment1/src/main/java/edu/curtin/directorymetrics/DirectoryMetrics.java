@@ -3,8 +3,11 @@ package edu.curtin.directorymetrics;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import edu.curtin.directorymetrics.criteria.Criteria;
+import edu.curtin.directorymetrics.criteria.CriteriaException;
 import edu.curtin.directorymetrics.node.DirectoryIO;
 import edu.curtin.directorymetrics.node.Node;
 
@@ -14,6 +17,9 @@ import edu.curtin.directorymetrics.node.Node;
  */
 public class DirectoryMetrics
 {
+    private static Logger logger = Logger.getLogger(DirectoryMetrics.class
+        .getName());
+
     public static void main(String[] args)
     {
         String directoryPath = null;
@@ -61,7 +67,14 @@ public class DirectoryMetrics
         Node currentDir = nodeMap.get(currentOutput);
 
         Criteria c = new Criteria();
-        c.addCriterion("+ r .*"); // default criterion
+        try
+        {
+            c.addCriterion("+ r .*"); // default criterion
+        }
+        catch(CriteriaException ce)
+        {
+
+        }
 
         // DEBUG
         // c.addCriterion("+ t Hello");
@@ -162,7 +175,20 @@ public class DirectoryMetrics
             else
             {
                 // Add to Criteria object
-                c.addCriterion(criterionString);
+                try
+                {
+                    c.addCriterion(criterionString);
+                }
+                catch(CriteriaException ce)
+                {
+                    System.out.println(ce.getMessage() + " Try again.");
+
+                    if(logger.isLoggable(Level.WARNING))
+                    {
+                        logger.log(Level.WARNING, "'" + criterionString
+                            + "' could not be parsed.", ce);
+                    }
+                }
             }
         }
     }
