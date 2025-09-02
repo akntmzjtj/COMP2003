@@ -89,7 +89,12 @@ public class DirectoryMetrics
         }
         catch(CriteriaException ce)
         {
-
+            // Default criterion should be valid. Log if an error occurs anyway
+            if(logger.isLoggable(Level.WARNING))
+            {
+                logger.log(Level.WARNING,
+                    "Default criterion could not be parsed.", ce);
+            }
         }
 
         // DEBUG
@@ -121,7 +126,7 @@ public class DirectoryMetrics
                     setCriteria(input, c);
                     break;
                 case "2":
-                    currentOutput = setOutput(input, currentOutput);
+                    currentOutput = changeOutputStyle(input, currentOutput);
                     currentDir = nodeMap.get(currentOutput);
                     break;
                 case "3":
@@ -139,7 +144,7 @@ public class DirectoryMetrics
         }
     }
 
-    private String setOutput(Scanner input, String current)
+    private String changeOutputStyle(Scanner input, String current)
     {
         boolean outputChosen = false;
         while(!outputChosen)
