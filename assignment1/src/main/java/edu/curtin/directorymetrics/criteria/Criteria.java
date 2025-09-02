@@ -96,10 +96,9 @@ public class Criteria
      * @param file to be checked.
      * @return An array of LineMatch objects representing matching lines, or
      *         null if an error occurs.
-     * @throws IllegalArgumentException if no criteria are set.
+     * @throws IllegalStateException if no criteria are set.
      */
-    public LineMatch[] findMatchInFile(File file)
-        throws IllegalArgumentException
+    public LineMatch[] findMatchInFile(File file) throws IllegalStateException
     {
         // Throw exception when both inclusions and exclusions list are empty
         if(this.inclusions.isEmpty() && this.exclusions.isEmpty())
