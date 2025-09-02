@@ -13,9 +13,15 @@ public class CriterionText implements Criterion
      * Constructor for CriterionText class.
      *
      * @param text Text used to be checked again.
+     * @throws IllegalArgumentException when the string is blank
      */
     public CriterionText(String text)
     {
+        if(text.isBlank())
+        {
+            throw new IllegalArgumentException("Text is empty.");
+        }
+
         this.text = text;
     }
 

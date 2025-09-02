@@ -17,11 +17,17 @@ public class CriterionExpression implements Criterion
      * Contructs object by using regex defined by expression
      *
      * @param expression the string that contains the regex
-     * @throws PatternSyntaxException when Pattern object cannot compile given
-     *                                string
+     * @throws PatternSyntaxException   when Pattern object cannot compile given
+     *                                  string
+     * @throws IllegalArgumentException when string is blank
      */
     public CriterionExpression(String expression)
     {
+        if(expression.isBlank())
+        {
+            throw new IllegalArgumentException("Expression is empty.");
+        }
+
         this.p = Pattern.compile(expression);
     }
 
