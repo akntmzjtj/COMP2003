@@ -17,8 +17,8 @@ public class CriterionExpression implements Criterion
         }
         catch(PatternSyntaxException pse)
         {
-            throw new IllegalArgumentException(
-                "Input is not a regular expression.");
+            throw (IllegalStateException)(new IllegalStateException(
+                "Input is not a regular expression.").initCause(pse));
         }
     }
 
