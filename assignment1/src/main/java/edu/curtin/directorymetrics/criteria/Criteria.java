@@ -66,6 +66,12 @@ public class Criteria
                 "Second argument must be 't' or 'r'.");
         }
 
+        // inputArray[2] is blank (does not provide pattern/text)
+        if(inputArray[2].isBlank())
+        {
+            throw new IllegalArgumentException("Third argument cannot be empty.");
+        }
+
         // Check if the user provided a regular expression
         Criterion c;
         if(inputArray[1].equals("r"))
