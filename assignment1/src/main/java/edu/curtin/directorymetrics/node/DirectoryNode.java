@@ -23,6 +23,7 @@ public abstract class DirectoryNode implements Node
         this.matchesCount = 0;
     }
 
+    @Override
     public int getMatchesCount()
     {
         return this.matchesCount;

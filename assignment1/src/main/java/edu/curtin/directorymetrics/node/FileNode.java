@@ -19,6 +19,7 @@ public abstract class FileNode implements Node
         this.matches = new LineMatch[0];
     }
 
+    @Override
     public int getMatchesCount()
     {
         return this.matchesCount;
