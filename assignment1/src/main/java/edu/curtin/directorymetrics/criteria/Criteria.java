@@ -7,9 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class Criteria
 {
+    private static final Logger logger = Logger.getLogger(Criteria.class.getName());
+
     private Queue<Criterion> inclusions;
     private Queue<Criterion> exclusions;
 
@@ -17,22 +20,8 @@ public class Criteria
     {
         this.inclusions = new LinkedList<>();
         this.exclusions = new LinkedList<>();
-    }
 
-    public Criteria(Criteria c)
-    {
-        this.inclusions = c.getInclusions();
-        this.exclusions = c.getExclusions();
-    }
-
-    public Queue<Criterion> getInclusions()
-    {
-        return this.inclusions;
-    }
-
-    public Queue<Criterion> getExclusions()
-    {
-        return this.exclusions;
+        logger.info(() -> "Criteria object constructed.");
     }
 
     public void addCriterion(String input) throws IllegalArgumentException
@@ -84,6 +73,8 @@ public class Criteria
         {
             this.exclusions.add(c);
         }
+
+        logger.info(() -> "'" + input + "' added.");
     }
 
     public LineMatch[] findMatchInFile(File file)
@@ -125,8 +116,7 @@ public class Criteria
         }
         catch(IOException io)
         {
-            System.out.println("Failed to read provided file. " + io
-                .getMessage());
+            logger.warning(() -> "Failed to read '" + file.getName() + "'");
         }
 
         return null;
