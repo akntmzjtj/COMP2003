@@ -13,6 +13,7 @@ public class CriterionExpression implements Criterion
         this.p = Pattern.compile(expression);
     }
 
+    @Override
     public boolean findMatch(String sample)
     {
         // Create a Matcher object and pass 'sample'

@@ -10,6 +10,7 @@ public class CriterionText implements Criterion
         this.text = text;
     }
 
+    @Override
     public boolean findMatch(String sample)
     {
         if(sample.contains(text))
