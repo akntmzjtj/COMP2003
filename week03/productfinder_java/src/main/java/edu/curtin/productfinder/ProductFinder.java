@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Entry point into the Product Finder app. This reads the catalogue file, then displays a console
- * menu for invoking various operations on the tree of products and categories.
+ * Entry point into the Product Finder app. This reads the catalogue file, then
+ * displays a console menu for invoking various operations on the tree of
+ * products and categories.
  */
 public class ProductFinder
 {
@@ -16,12 +17,13 @@ public class ProductFinder
 
     public void menu(CatalogueFileIO catalogue)
     {
-        try
+
+        try(Scanner sc = new Scanner(System.in))
         {
-            CatalogueItem rootItem = catalogue.readCatalogue(CatalogueFileIO.CATALOGUE_FILE);
+            CatalogueItem rootItem = catalogue.readCatalogue(
+                CatalogueFileIO.CATALOGUE_FILE);
 
             System.out.println("Product Finder\n--------------");
-            Scanner sc = new Scanner(System.in);
 
             boolean done = false;
             while(!done)
@@ -29,29 +31,34 @@ public class ProductFinder
                 System.out.print(
                     "\nChoose - (x) exit, (d) display, (v) calc stock value, (f) find products: ");
                 String opt = sc.nextLine();
-                switch(opt)
+                switch (opt)
                 {
                     case "d":
                         rootItem.display();
                         break;
 
                     case "v":
-                        System.out.printf("Total value is $%.2f.\n", rootItem.calcStockValue());
+                        System.out.printf("Total value is $%.2f.\n", rootItem
+                            .calcStockValue());
                         break;
 
                     case "f":
-                        System.out.print("Enter a search term (or leave blank): ");
+                        System.out.print(
+                            "Enter a search term (or leave blank): ");
                         String searchTerm = sc.nextLine();
 
-                        System.out.print("Enter a minimum price (or leave blank): ");
+                        System.out.print(
+                            "Enter a minimum price (or leave blank): ");
                         double minPrice = readDouble(sc, 0.0);
 
-                        System.out.print("Enter a maximum price (or leave blank): ");
+                        System.out.print(
+                            "Enter a maximum price (or leave blank): ");
                         double maxPrice = readDouble(sc, Double.MAX_VALUE);
 
                         boolean anyFound = false;
                         System.out.println("Matching products:");
-                        for(String label : rootItem.findProducts(searchTerm, minPrice, maxPrice))
+                        for(String label : rootItem.findProducts(searchTerm,
+                            minPrice, maxPrice))
                         {
                             anyFound = true;
                             System.out.println("  " + label);
@@ -73,17 +80,19 @@ public class ProductFinder
         }
         catch(CatalogueFormatException e)
         {
-            System.out.println("Parsing error in catalogue file: " + e.getMessage());
+            System.out.println("Parsing error in catalogue file: " + e
+                .getMessage());
         }
         catch(IOException e)
         {
-            System.out.println("IO error reading catalogue file: " + e.getMessage());
+            System.out.println("IO error reading catalogue file: " + e
+                .getMessage());
         }
     }
 
     /**
-     * Reads a double from the console and returns it, or a default value if no valid number is
-     * entered.
+     * Reads a double from the console and returns it, or a default value if no
+     * valid number is entered.
      */
     private static double readDouble(Scanner sc, double defaultValue)
     {

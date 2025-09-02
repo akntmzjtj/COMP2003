@@ -62,4 +62,6 @@ public interface CatalogueItem
         findProducts(list, searchTerm, minPrice, maxPrice);
         return list;
     }
+
+    // CatalogueItem findItem(String name);
 }
