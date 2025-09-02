@@ -2,7 +2,6 @@ package edu.curtin.directorymetrics.criteria;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -11,7 +10,8 @@ import java.util.logging.Logger;
 
 public class Criteria
 {
-    private static final Logger logger = Logger.getLogger(Criteria.class.getName());
+    private static final Logger logger = Logger.getLogger(Criteria.class
+        .getName());
 
     private Queue<Criterion> inclusions;
     private Queue<Criterion> exclusions;
@@ -124,13 +124,10 @@ public class Criteria
 
     private boolean checkMatch(Queue<Criterion> criterions, String line)
     {
-        Iterator<Criterion> it = criterions.iterator();
-        while(it.hasNext())
+        for(Criterion cri : criterions)
         {
-            Criterion c = it.next();
-
             // Check if there are any matches
-            if(c.findMatch(line))
+            if(cri.findMatch(line))
             {
                 return true;
             }
