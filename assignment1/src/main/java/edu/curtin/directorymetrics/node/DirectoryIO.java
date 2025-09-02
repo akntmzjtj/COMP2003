@@ -26,7 +26,7 @@ public class DirectoryIO
         Map<String, DirectoryNode> map = new HashMap<>();
 
         // Add new DirectoryNode obj (depending on bool)
-        DirectoryNode rootDirNode = null;
+        DirectoryNode rootDirNode;
         if(isCount)
         {
             rootDirNode = new DirectoryNodeCount(rootDir);
@@ -56,7 +56,7 @@ public class DirectoryIO
                     queue.add(file);
 
                     // Add to parent directory
-                    DirectoryNode dirNode = null;
+                    DirectoryNode dirNode;
                     if(isCount)
                     {
                         dirNode = new DirectoryNodeCount(file);
@@ -73,7 +73,7 @@ public class DirectoryIO
                 else
                 {
                     // Add to parent directory as a file
-                    FileNode fileNode = null;
+                    FileNode fileNode;
                     if(isCount)
                     {
                         fileNode = new FileNodeCount(file);
