@@ -5,24 +5,15 @@ import java.io.File;
 import edu.curtin.directorymetrics.criteria.Criteria;
 import edu.curtin.directorymetrics.criteria.LineMatch;
 
-public abstract class FileNode implements Node
+public abstract class FileNode extends Node
 {
-    protected final static String INDENT = "   ";
-    protected File file;
-    protected int matchesCount;
     protected LineMatch[] matches;
 
     public FileNode(File file)
     {
-        this.file = file;
-        this.matchesCount = 0;
-        this.matches = new LineMatch[0];
-    }
+        super(file);
 
-    @Override
-    public int getMatchesCount()
-    {
-        return this.matchesCount;
+        this.matches = new LineMatch[0];
     }
 
     @Override

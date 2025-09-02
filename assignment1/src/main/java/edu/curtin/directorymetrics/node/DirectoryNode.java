@@ -7,26 +7,17 @@ import edu.curtin.directorymetrics.criteria.Criteria;
 
 import java.util.LinkedList;
 
-public abstract class DirectoryNode implements Node
+public abstract class DirectoryNode extends Node
 {
-    private final static String INDENT = "   ";
-    protected File file;
     protected Queue<Node> directories;
     protected Queue<Node> files;
-    protected int matchesCount;
 
     public DirectoryNode(File file)
     {
-        this.file = file;
+        super(file);
+
         this.directories = new LinkedList<>();
         this.files = new LinkedList<>();
-        this.matchesCount = 0;
-    }
-
-    @Override
-    public int getMatchesCount()
-    {
-        return this.matchesCount;
     }
 
     @Override
@@ -73,12 +64,12 @@ public abstract class DirectoryNode implements Node
 
     protected abstract String formatName(String indent);
 
-    public void addDirectory(Node node)
+    public final void addDirectory(Node node)
     {
         this.directories.add(node);
     }
 
-    public void addFile(Node node)
+    public final void addFile(Node node)
     {
         this.files.add(node);
     }

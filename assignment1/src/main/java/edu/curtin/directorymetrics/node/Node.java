@@ -1,18 +1,42 @@
 package edu.curtin.directorymetrics.node;
 
+import java.io.File;
+
 import edu.curtin.directorymetrics.criteria.Criteria;
 
 /**
- * Node interface used to represent both directories and files
+ * Node is an abstract class used to represent both directories and files. A
+ * subclass that represents the directories is implemented to allow for a tree
+ * to be formed. The abstract methods must be defined to recurse through the
+ * tree.
  */
-public interface Node
+public abstract class Node
 {
+    protected final static String INDENT = "   ";
+
+    protected int matchesCount;
+    protected File file;
+
+    /**
+     * Constructor for the subclasses of Node
+     *
+     * @param file File object containing either a directory or file
+     */
+    public Node(File file)
+    {
+        this.file = file;
+        this.matchesCount = 0;
+    }
+
     /**
      * Function to return the total matches count within a file/directory
      *
      * @return matchesCount
      */
-    int getMatchesCount();
+    public final int getMatchesCount()
+    {
+        return this.matchesCount;
+    }
 
     /**
      * Recursively search for matches in files, using a Criteria object to check
@@ -21,19 +45,19 @@ public interface Node
      * @param c Criteria object that manages the list of inclusions and
      *          exclusions to be checked against
      */
-    void searchMatches(Criteria c);
+    public abstract void searchMatches(Criteria c);
 
     /**
      * Displays the directory by recursing through the tree.
      *
      * @param indent Contains the number of whitespace for indentation
      */
-    void displayMatches(String indent);
+    public abstract void displayMatches(String indent);
 
     /**
      * A function wrapper to run the displayMatches() function recursively.
      */
-    default void displayMatches()
+    public final void displayMatches()
     {
         displayMatches("");
     }
