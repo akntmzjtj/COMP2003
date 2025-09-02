@@ -20,7 +20,7 @@ public class CriterionExpression implements Criterion
      * @throws PatternSyntaxException when Pattern object cannot compile given
      *                                string
      */
-    public CriterionExpression(String expression) throws PatternSyntaxException
+    public CriterionExpression(String expression)
     {
         this.p = Pattern.compile(expression);
     }
