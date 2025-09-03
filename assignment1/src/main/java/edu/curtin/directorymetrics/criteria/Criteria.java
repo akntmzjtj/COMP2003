@@ -33,6 +33,36 @@ public class Criteria
     }
 
     /**
+     * Removes all added inclusion and exclusion criterions
+     */
+    public void reset()
+    {
+        this.inclusions.clear();
+        this.exclusions.clear();
+    }
+
+    /**
+     * Resets the object and adds an inclusion criterion that will include all
+     * lines of a file
+     */
+    public void setDefault()
+    {
+        reset();
+
+        // Add regex that includes all lines
+        this.inclusions.add(new CriterionExpression(".*"));
+    }
+
+    /**
+     * Checks if the inclusion and exclusion lists are empty
+     * @return true when at least one container has a criterion
+     */
+    public boolean canFindMatch()
+    {
+        return !this.inclusions.isEmpty() || !this.exclusions.isEmpty();
+    }
+
+    /**
      * Adds a criterion to the inclusion or exclusion list. The input must be in
      * the format: "+/- r/t <pattern>".
      *
@@ -113,7 +143,7 @@ public class Criteria
     public LineMatch[] findMatchInFile(File file)
     {
         // Throw exception when both inclusions and exclusions list are empty
-        if(this.inclusions.isEmpty() && this.exclusions.isEmpty())
+        if(!canFindMatch())
         {
             throw new IllegalStateException(
                 "No criterions to be checked against.");

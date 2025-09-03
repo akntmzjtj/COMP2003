@@ -81,19 +81,7 @@ public class DirectoryMetrics
         Node currentDir = nodeMap.get(currentOutput);
 
         Criteria c = new Criteria();
-        try
-        {
-            c.addCriterion("+ r .*"); // default criterion
-        }
-        catch(CriteriaException ce)
-        {
-            // Default criterion should be valid. Log if an error occurs anyway
-            if(logger.isLoggable(Level.WARNING))
-            {
-                logger.log(Level.WARNING,
-                    "Default criterion could not be parsed.", ce);
-            }
-        }
+        c.setDefault();
 
         // DEBUG
         // c.addCriterion("+ t Hello");
@@ -117,10 +105,10 @@ public class DirectoryMetrics
             switch (option)
             {
                 case "1":
-                    // create new Criteria object
-                    c = new Criteria();
+                    // Reset Criteria object
+                    c.reset();
 
-                    // set criteria
+                    // Set new criteria
                     setCriteria(input, c);
                     break;
                 case "2":
@@ -190,6 +178,12 @@ public class DirectoryMetrics
             if(criterionString.isBlank())
             {
                 blankLineEntered = true;
+
+                // Check if a new set of Criteria was not added
+                if(!c.canFindMatch())
+                {
+                    c.setDefault();
+                }
             }
             else
             {
