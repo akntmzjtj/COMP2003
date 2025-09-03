@@ -23,8 +23,7 @@ public abstract class DirectoryNode extends Node
     @Override
     public void searchMatches(Criteria c)
     {
-        // Reset matchesCount
-        setMatchesCount(0);;
+        resetMatchesCount();
 
         // Recurse into directories
         for(Node dir : this.directories)

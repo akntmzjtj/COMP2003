@@ -40,15 +40,32 @@ public abstract class Node
 
     /**
      * Update the matches count
+     *
      * @param count updated matchesCount
+     * @throws IllegalArgumentException When count is negative
      */
     protected final void setMatchesCount(int count)
     {
+        if(count < 0)
+        {
+            throw new IllegalArgumentException(
+                "Number of matches cannot be negative.");
+        }
+
         this.matchesCount = count;
     }
 
     /**
+     * Resets matchesCount
+     */
+    protected final void resetMatchesCount()
+    {
+        this.matchesCount = 0;
+    }
+
+    /**
      * Returns File object
+     *
      * @return this.file - File object
      */
     protected final File getFile()
