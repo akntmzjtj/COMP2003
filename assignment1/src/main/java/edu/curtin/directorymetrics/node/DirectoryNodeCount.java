@@ -12,7 +12,7 @@ public class DirectoryNodeCount extends DirectoryNode
     @Override
     public String formatName(String indent)
     {
-        return indent + getFile().getName() + ": "
-            + getMatchesCount();
+        return indent + this.file.getName() + ": "
+            + this.matchesCount;
     }
 }

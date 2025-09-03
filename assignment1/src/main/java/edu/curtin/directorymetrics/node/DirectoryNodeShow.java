@@ -12,6 +12,6 @@ public class DirectoryNodeShow extends DirectoryNode
     @Override
     public String formatName(String indent)
     {
-        return indent + getFile().getName() + ":";
+        return indent + this.file.getName() + ":";
     }
 }

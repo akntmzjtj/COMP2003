@@ -14,8 +14,8 @@ public abstract class Node
 {
     protected final static String INDENT = "   ";
 
-    private int matchesCount;
-    private File file;
+    protected int matchesCount;
+    protected File file;
 
     /**
      * Constructor for the subclasses of Node
@@ -33,27 +33,9 @@ public abstract class Node
      *
      * @return matchesCount
      */
-    protected final int getMatchesCount()
+    public final int getMatchesCount()
     {
         return this.matchesCount;
-    }
-
-    /**
-     * Update the matches count
-     * @param count updated matchesCount
-     */
-    protected final void setMatchesCount(int count)
-    {
-        this.matchesCount = count;
-    }
-
-    /**
-     * Returns File object
-     * @return this.file - File object
-     */
-    protected final File getFile()
-    {
-        return this.file;
     }
 
     /**

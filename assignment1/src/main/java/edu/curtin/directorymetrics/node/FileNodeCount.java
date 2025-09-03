@@ -12,10 +12,10 @@ public class FileNodeCount extends FileNode
     @Override
     protected String formatMatches(String indent)
     {
-        String out = indent + getFile().getName() + ": " + getMatchesCount()
+        String out = indent + this.file.getName() + ": " + this.matchesCount
             + " line";
 
-        if(getMatchesCount() > 1)
+        if(this.matchesCount > 1)
         {
             out += "s";
         }
