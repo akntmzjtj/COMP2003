@@ -122,6 +122,9 @@ public class DirectoryMetrics
                 case "0":
                     hasExit = true;
                     break;
+                case "":
+                    System.out.println("Please choose an option.");
+                    break;
                 default:
                     System.out.println("The option " + option
                         + " chosen does not exist.");
@@ -150,6 +153,9 @@ public class DirectoryMetrics
                     return "show";
                 case "0":
                     return current;
+                case "":
+                    System.out.println("Please choose an option.");
+                    break;
                 default:
                     System.out.println("The output " + output
                         + " chosen does not exist.");
