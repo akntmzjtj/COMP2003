@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree.node;
 
 import java.io.File;
 import java.util.Queue;

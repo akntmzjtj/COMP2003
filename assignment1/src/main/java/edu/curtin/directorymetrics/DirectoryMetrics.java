@@ -8,9 +8,9 @@ import java.util.logging.Level;
 
 import edu.curtin.directorymetrics.criteria.Criteria;
 import edu.curtin.directorymetrics.criteria.CriteriaException;
-import edu.curtin.directorymetrics.node.DirectoryIO;
-import edu.curtin.directorymetrics.node.DirectoryIOException;
-import edu.curtin.directorymetrics.node.Node;
+import edu.curtin.directorymetrics.tree.DirectoryIO;
+import edu.curtin.directorymetrics.tree.DirectoryIOException;
+import edu.curtin.directorymetrics.tree.node.Node;
 
 /**
  * Entry point into the application. To change the package, and/or the name of

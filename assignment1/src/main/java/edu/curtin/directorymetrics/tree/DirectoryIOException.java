@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree;
 
 /**
  * Exception for DirectoryIO

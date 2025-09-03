@@ -1,9 +1,18 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Queue;
+
+import edu.curtin.directorymetrics.tree.node.Node;
+import edu.curtin.directorymetrics.tree.node.DirectoryNode;
+import edu.curtin.directorymetrics.tree.node.DirectoryNodeShow;
+import edu.curtin.directorymetrics.tree.node.DirectoryNodeCount;
+import edu.curtin.directorymetrics.tree.node.FileNode;
+import edu.curtin.directorymetrics.tree.node.FileNodeShow;
+import edu.curtin.directorymetrics.tree.node.FileNodeCount;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
