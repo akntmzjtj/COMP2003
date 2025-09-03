@@ -8,9 +8,9 @@ import java.util.logging.Level;
 
 import edu.curtin.directorymetrics.criteria.Criteria;
 import edu.curtin.directorymetrics.criteria.CriteriaException;
-import edu.curtin.directorymetrics.node.DirectoryIO;
-import edu.curtin.directorymetrics.node.DirectoryIOException;
-import edu.curtin.directorymetrics.node.Node;
+import edu.curtin.directorymetrics.tree.NodeIO;
+import edu.curtin.directorymetrics.tree.NodeIOException;
+import edu.curtin.directorymetrics.tree.node.Node;
 
 /**
  * Entry point into the application. To change the package, and/or the name of
@@ -47,12 +47,10 @@ public class DirectoryMetrics
             try
             {
                 // true if count
-                nodeMap.put("count", DirectoryIO.readDirectory(directoryPath,
-                    true));
+                nodeMap.put("count", NodeIO.readDirectory(directoryPath, true));
 
                 // false if show lines
-                nodeMap.put("show", DirectoryIO.readDirectory(directoryPath,
-                    false));
+                nodeMap.put("show", NodeIO.readDirectory(directoryPath, false));
 
                 // Start app
                 DirectoryMetrics app = new DirectoryMetrics();
@@ -62,7 +60,7 @@ public class DirectoryMetrics
                     app.menu(input, nodeMap);
                 }
             }
-            catch(DirectoryIOException e)
+            catch(NodeIOException e)
             {
                 System.out.println(e.getMessage() + " The program will exit.");
 

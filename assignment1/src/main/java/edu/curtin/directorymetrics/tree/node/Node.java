@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree.node;
 
 import java.io.File;
 
@@ -29,13 +29,11 @@ public abstract class Node
     }
 
     /**
-     * Function to return the total matches count within a file/directory
-     *
-     * @return matchesCount
+     * Function to reset the matchesCount before search
      */
-    public final int getMatchesCount()
+    protected final void resetMatchesCount()
     {
-        return this.matchesCount;
+        this.matchesCount = 0;
     }
 
     /**
@@ -52,7 +50,7 @@ public abstract class Node
      *
      * @param indent Contains the number of whitespace for indentation
      */
-    public abstract void displayMatches(String indent);
+    protected abstract void displayMatches(String indent);
 
     /**
      * A function wrapper to run the displayMatches() function recursively.

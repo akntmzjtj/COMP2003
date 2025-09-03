@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree.node;
 
 import java.io.File;
 import java.util.Queue;
@@ -9,8 +9,8 @@ import java.util.LinkedList;
 
 public abstract class DirectoryNode extends Node
 {
-    protected Queue<Node> directories;
-    protected Queue<Node> files;
+    private Queue<Node> directories;
+    private Queue<Node> files;
 
     public DirectoryNode(File file)
     {
@@ -24,25 +24,25 @@ public abstract class DirectoryNode extends Node
     public void searchMatches(Criteria c)
     {
         // Reset matchesCount
-        this.matchesCount = 0;
+        this.resetMatchesCount();
 
         // Recurse into directories
         for(Node dir : this.directories)
         {
             dir.searchMatches(c);
-            this.matchesCount += dir.getMatchesCount();
+            this.matchesCount += dir.matchesCount;
         }
 
         // Recurse into files
         for(Node file : files)
         {
             file.searchMatches(c);
-            this.matchesCount += file.getMatchesCount();
+            this.matchesCount += file.matchesCount;
         }
     }
 
     @Override
-    public void displayMatches(String indent)
+    protected void displayMatches(String indent)
     {
         if(this.matchesCount > 0)
         {

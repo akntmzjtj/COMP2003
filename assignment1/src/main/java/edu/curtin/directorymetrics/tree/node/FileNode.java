@@ -1,4 +1,4 @@
-package edu.curtin.directorymetrics.node;
+package edu.curtin.directorymetrics.tree.node;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public abstract class FileNode extends Node
     }
 
     @Override
-    public void displayMatches(String indent)
+    protected void displayMatches(String indent)
     {
         if(this.matchesCount > 0)
         {
