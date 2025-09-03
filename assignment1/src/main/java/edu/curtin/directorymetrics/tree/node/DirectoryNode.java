@@ -21,23 +21,30 @@ public abstract class DirectoryNode extends Node
     }
 
     @Override
-    public void searchMatches(Criteria c)
+    public int searchMatchesRecurse(Criteria c)
     {
         resetMatchesCount();
+
+        int total = 0;
 
         // Recurse into directories
         for(Node dir : this.directories)
         {
-            dir.searchMatches(c);
-            setMatchesCount(this.getMatchesCount() + dir.getMatchesCount());
+            total += dir.searchMatchesRecurse(c);
+            // setMatchesCount(this.getMatchesCount() + dir.getMatchesCount());
         }
 
         // Recurse into files
         for(Node file : files)
         {
-            file.searchMatches(c);
-            setMatchesCount(this.getMatchesCount() + file.getMatchesCount());
+            total += file.searchMatchesRecurse(c);
+            // setMatchesCount(this.getMatchesCount() + file.getMatchesCount());
         }
+
+        // Update totalMatchesCount
+        setMatchesCount(total);
+
+        return total;
     }
 
     @Override

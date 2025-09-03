@@ -22,13 +22,15 @@ public abstract class FileNode extends Node
     }
 
     @Override
-    public void searchMatches(Criteria c)
+    protected int searchMatchesRecurse(Criteria c)
     {
         // Grab matches using criteria
         this.matches = c.findMatchInFile(getFile());
 
         // Update matchesCount
         setMatchesCount(this.matches.length);
+
+        return this.matches.length;
     }
 
     @Override

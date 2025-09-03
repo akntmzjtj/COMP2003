@@ -80,7 +80,18 @@ public abstract class Node
      * @param c Criteria object that manages the list of inclusions and
      *          exclusions to be checked against
      */
-    public abstract void searchMatches(Criteria c);
+    protected abstract int searchMatchesRecurse(Criteria c);
+
+    /**
+     * A function wrapper to run searchMatchesRecurse() recursively
+     *
+     * @param c Criteria object that manages the list of inclusions and
+     *          exclusion to be checked against
+     */
+    public final void searchMatches(Criteria c)
+    {
+        searchMatchesRecurse(c);
+    }
 
     /**
      * Displays the directory by recursing through the tree.
