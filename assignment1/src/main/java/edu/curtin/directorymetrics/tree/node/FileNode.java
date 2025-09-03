@@ -34,7 +34,7 @@ public abstract class FileNode extends Node
     }
 
     @Override
-    public void displayMatches(String indent)
+    protected void displayMatches(String indent)
     {
         if(getMatchesCount() > 0)
         {

@@ -48,7 +48,7 @@ public abstract class DirectoryNode extends Node
     }
 
     @Override
-    public void displayMatches(String indent)
+    protected void displayMatches(String indent)
     {
         if(getMatchesCount() > 0)
         {

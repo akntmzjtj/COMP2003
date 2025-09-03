@@ -79,6 +79,7 @@ public abstract class Node
      *
      * @param c Criteria object that manages the list of inclusions and
      *          exclusions to be checked against
+     * @return total number of matches found
      */
     protected abstract int searchMatchesRecurse(Criteria c);
 
@@ -98,7 +99,7 @@ public abstract class Node
      *
      * @param indent Contains the number of whitespace for indentation
      */
-    public abstract void displayMatches(String indent);
+    protected abstract void displayMatches(String indent);
 
     /**
      * A function wrapper to run the displayMatches() function recursively.
