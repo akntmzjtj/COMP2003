@@ -20,7 +20,7 @@ import java.util.LinkedList;
  * A class used for forming a tree using the Node interface and its composite
  * and leaf implementations.
  */
-public class DirectoryIO
+public class NodeIO
 {
     /**
      * Creates a tree of Node objects by recursively adding each directory/file
@@ -30,11 +30,11 @@ public class DirectoryIO
      * @param isCount Flag for whether storing 'count' or 'show' implementations
      *                of the FileNode and DirectoryNode
      * @return
-     * @throws DirectoryIOException When the provided directory does not exist
+     * @throws NodeIOException When the provided directory does not exist
      *                              or points to a file
      */
     public static Node readDirectory(String dir, boolean isCount)
-        throws DirectoryIOException
+        throws NodeIOException
     {
         // Create File object with directory given
         File rootDir = new File(dir);
@@ -42,7 +42,7 @@ public class DirectoryIO
         // Throw exception if 'dir' does not exist or is not a directory
         if(!rootDir.exists() || !rootDir.isDirectory())
         {
-            throw new DirectoryIOException(
+            throw new NodeIOException(
                 "Directory provided does not exist or is not a directory.");
         }
 
