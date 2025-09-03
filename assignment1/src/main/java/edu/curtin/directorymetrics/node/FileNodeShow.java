@@ -17,10 +17,10 @@ public class FileNodeShow extends FileNode
         String out = "";
 
         // Add filename
-        out += indent + this.file.getName() + ":\n";
+        out += indent + getFile().getName() + ":\n";
 
         // Print matches per line
-        for(LineMatch m : this.matches)
+        for(LineMatch m : getMatches())
         {
             // Add line
             out += indent + INDENT + m.getLineNumber() + " " + m.getContent()

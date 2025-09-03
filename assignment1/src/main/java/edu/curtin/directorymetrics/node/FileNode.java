@@ -7,7 +7,7 @@ import edu.curtin.directorymetrics.criteria.LineMatch;
 
 public abstract class FileNode extends Node
 {
-    protected LineMatch[] matches;
+    private LineMatch[] matches;
 
     public FileNode(File file)
     {
@@ -16,20 +16,25 @@ public abstract class FileNode extends Node
         this.matches = new LineMatch[0];
     }
 
+    protected LineMatch[] getMatches()
+    {
+        return this.matches;
+    }
+
     @Override
     public void searchMatches(Criteria c)
     {
         // Grab matches using criteria
-        this.matches = c.findMatchInFile(this.file);
+        this.matches = c.findMatchInFile(getFile());
 
         // Update matchesCount
-        this.matchesCount = this.matches.length;
+        setMatchesCount(this.matches.length);
     }
 
     @Override
     public void displayMatches(String indent)
     {
-        if(this.matchesCount > 0)
+        if(getMatchesCount() > 0)
         {
             System.out.println(formatMatches(indent));
         }

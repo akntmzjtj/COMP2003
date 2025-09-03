@@ -9,8 +9,8 @@ import java.util.LinkedList;
 
 public abstract class DirectoryNode extends Node
 {
-    protected Queue<Node> directories;
-    protected Queue<Node> files;
+    private Queue<Node> directories;
+    private Queue<Node> files;
 
     public DirectoryNode(File file)
     {
@@ -24,27 +24,27 @@ public abstract class DirectoryNode extends Node
     public void searchMatches(Criteria c)
     {
         // Reset matchesCount
-        this.matchesCount = 0;
+        setMatchesCount(0);;
 
         // Recurse into directories
         for(Node dir : this.directories)
         {
             dir.searchMatches(c);
-            this.matchesCount += dir.getMatchesCount();
+            setMatchesCount(this.getMatchesCount() + dir.getMatchesCount());
         }
 
         // Recurse into files
         for(Node file : files)
         {
             file.searchMatches(c);
-            this.matchesCount += file.getMatchesCount();
+            setMatchesCount(this.getMatchesCount() + file.getMatchesCount());
         }
     }
 
     @Override
     public void displayMatches(String indent)
     {
-        if(this.matchesCount > 0)
+        if(getMatchesCount() > 0)
         {
             System.out.println(formatName(indent));
 
