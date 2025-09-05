@@ -7,11 +7,21 @@ import edu.curtin.directorymetrics.criteria.Criteria;
 
 import java.util.LinkedList;
 
+/**
+ * The 'composite' class for Node. This class provides all the necessary methods
+ * for creating a 'tree' structure and recursing through it. The subclasses must
+ * implement a way to display the directory that 'file' points to.
+ */
 public abstract class DirectoryNode extends Node
 {
     private Queue<Node> directories;
     private Queue<Node> files;
 
+    /**
+     * Constructor for Directory Node.
+     *
+     * @param file The directory that is stored
+     */
     public DirectoryNode(File file)
     {
         super(file);
@@ -20,6 +30,14 @@ public abstract class DirectoryNode extends Node
         this.files = new LinkedList<>();
     }
 
+    /**
+     * Recurses through list of directories and files to find matches using
+     * Criteria object.
+     *
+     * @param c The Criteria object containing list of inclusions and
+     *          exclusions.
+     * @return The total number of matches found
+     */
     @Override
     public int searchMatchesRecurse(Criteria c)
     {
@@ -47,6 +65,11 @@ public abstract class DirectoryNode extends Node
         return total;
     }
 
+    /**
+     * Recursive function to display the tree of directories and files.
+     *
+     * @param indent The number of whitespace to print before the content.
+     */
     @Override
     protected void displayMatches(String indent)
     {
@@ -68,13 +91,29 @@ public abstract class DirectoryNode extends Node
         }
     }
 
+    /**
+     * Formats the name of the directory
+     *
+     * @param indent
+     * @return
+     */
     protected abstract String formatName(String indent);
 
+    /**
+     * Adds a directory to the Node list
+     *
+     * @param node
+     */
     public final void addDirectory(Node node)
     {
         this.directories.add(node);
     }
 
+    /**
+     * Adds a file to the Node list
+     *
+     * @param node
+     */
     public final void addFile(Node node)
     {
         this.files.add(node);
