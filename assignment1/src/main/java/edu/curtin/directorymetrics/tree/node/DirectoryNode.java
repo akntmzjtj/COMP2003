@@ -18,7 +18,7 @@ public abstract class DirectoryNode extends Node
     private Queue<Node> files;
 
     /**
-     * Constructor for Directory Node.
+     * Constructor for DirectoryNode. Must be called by subclass.
      *
      * @param file The directory that is stored
      * @throws IllegalArgumentException The File object imported is not a
