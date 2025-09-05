@@ -21,10 +21,18 @@ public abstract class DirectoryNode extends Node
      * Constructor for Directory Node.
      *
      * @param file The directory that is stored
+     * @throws IllegalArgumentException The File object imported is not a
+     *                                  directory
      */
     public DirectoryNode(File file)
     {
         super(file);
+
+        if(!file.isDirectory())
+        {
+            throw new IllegalArgumentException(
+                "File object is not a directory.");
+        }
 
         this.directories = new LinkedList<>();
         this.files = new LinkedList<>();
@@ -103,9 +111,17 @@ public abstract class DirectoryNode extends Node
      * Adds a directory to the Node list
      *
      * @param node
+     * @throws IllegalArgumentException Node object does not represent a
+     *                                  directory.
      */
     public final void addDirectory(Node node)
     {
+        if(!node.getFile().isDirectory())
+        {
+            throw new IllegalArgumentException(
+                "Node imported does not represent a directory.");
+        }
+
         this.directories.add(node);
     }
 
@@ -113,9 +129,16 @@ public abstract class DirectoryNode extends Node
      * Adds a file to the Node list
      *
      * @param node
+     * @throws IllegalArgumentException Node object does not represent a file.
      */
     public final void addFile(Node node)
     {
+        if(!node.getFile().isFile())
+        {
+            throw new IllegalArgumentException(
+                "Node imported does not represent a file.");
+        }
+
         this.files.add(node);
     }
 }
