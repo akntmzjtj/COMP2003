@@ -102,8 +102,8 @@ public abstract class DirectoryNode extends Node
     /**
      * Formats the name of the directory
      *
-     * @param indent
-     * @return
+     * @param indent The number of whitespace to print before the content.
+     * @return formatted string
      */
     protected abstract String formatName(String indent);
 
