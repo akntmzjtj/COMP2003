@@ -30,8 +30,8 @@ public class NodeIO
      * @param isCount Flag for whether storing 'count' or 'show' implementations
      *                of the FileNode and DirectoryNode
      * @return
-     * @throws NodeIOException When the provided directory does not exist
-     *                              or points to a file
+     * @throws NodeIOException When the provided directory does not exist or
+     *                         points to a file
      */
     public static Node readDirectory(String dir, boolean isCount)
         throws NodeIOException
