@@ -37,6 +37,9 @@ public class FileNodeCount extends FileNode
             out += "s";
         }
 
+        // include new-line char at the end
+        out += "\n";
+
         return out;
     }
 }

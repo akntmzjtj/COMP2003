@@ -72,7 +72,8 @@ public abstract class FileNode extends Node
     {
         if(getMatchesCount() > 0)
         {
-            System.out.println(formatMatches(indent));
+            // format will include new-line char at the end
+            System.out.print(formatMatches(indent));
         }
     }
 
