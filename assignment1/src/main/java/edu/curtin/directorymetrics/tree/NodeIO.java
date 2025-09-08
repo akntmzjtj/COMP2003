@@ -19,6 +19,8 @@ import java.util.LinkedList;
 /**
  * A class used for forming a tree using the Node interface and its composite
  * and leaf implementations.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class NodeIO
 {

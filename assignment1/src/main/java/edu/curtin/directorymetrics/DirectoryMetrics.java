@@ -14,6 +14,8 @@ import edu.curtin.directorymetrics.tree.node.Node;
 
 /**
  * Entry point into Directory Metrics application.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class DirectoryMetrics
 {

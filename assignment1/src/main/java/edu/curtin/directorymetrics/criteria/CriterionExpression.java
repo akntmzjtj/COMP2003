@@ -8,6 +8,8 @@ import java.util.regex.PatternSyntaxException;
  * A class that implements Criterion. Uses Pattern and Matcher to find a match
  * in a given string (a line from a file). The pattern (regex) is defined at the
  * construction of the object.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class CriterionExpression implements Criterion
 {

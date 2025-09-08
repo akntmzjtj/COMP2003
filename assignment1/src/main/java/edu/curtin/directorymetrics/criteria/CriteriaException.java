@@ -2,6 +2,8 @@ package edu.curtin.directorymetrics.criteria;
 
 /**
  * Exception for Criteria
+ *
+ * @author Joshua Orbon 20636948
  */
 public class CriteriaException extends Exception
 {
@@ -18,7 +20,7 @@ public class CriteriaException extends Exception
     /**
      * Constructs Criteria exception using a given message and includes a trail
      *
-     * @param msg The message as to why the exception was thrown.
+     * @param msg   The message as to why the exception was thrown.
      * @param cause For exception chaining
      */
     public CriteriaException(String msg, Throwable cause)

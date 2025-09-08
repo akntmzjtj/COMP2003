@@ -3,6 +3,8 @@ package edu.curtin.directorymetrics.criteria;
 /**
  * A class that implements Criterion. Just stores plain text to be checked
  * against.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class CriterionText implements Criterion
 {

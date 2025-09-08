@@ -11,6 +11,8 @@ import java.util.LinkedList;
  * The 'composite' class for Node. This class provides all the necessary methods
  * for creating a 'tree' structure and recursing through it. The subclasses must
  * implement a way to display the directory that 'file' points to.
+ *
+ * @author Joshua Orbon 20636948
  */
 public abstract class DirectoryNode extends Node
 {

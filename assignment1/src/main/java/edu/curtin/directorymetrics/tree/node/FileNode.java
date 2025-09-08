@@ -9,6 +9,8 @@ import edu.curtin.directorymetrics.criteria.LineMatch;
  * The 'leaf' template class for Node. This class stores the files that are
  * matched against the Criteria object. The subclasses must implement how the
  * matches are formatted for display.
+ *
+ * @author Joshua Orbon 20636948
  */
 public abstract class FileNode extends Node
 {

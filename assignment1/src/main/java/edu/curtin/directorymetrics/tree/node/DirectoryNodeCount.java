@@ -5,6 +5,8 @@ import java.io.File;
 /**
  * Implementation of DirectoryNode composite template. Format of the name
  * involves the total number of matches as well.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class DirectoryNodeCount extends DirectoryNode
 {

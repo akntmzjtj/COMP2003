@@ -5,6 +5,8 @@ import java.io.File;
 /**
  * Implementation of FileNode leaf template. Format of the matches only include
  * the name of the file and the total number of matches.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class FileNodeCount extends FileNode
 {

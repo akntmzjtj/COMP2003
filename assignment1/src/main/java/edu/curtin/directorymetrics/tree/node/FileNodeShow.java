@@ -7,6 +7,8 @@ import edu.curtin.directorymetrics.criteria.LineMatch;
 /**
  * Implementation of FileNode leaf template. Format of the matches include the
  * name of the file and each line match.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class FileNodeShow extends FileNode
 {

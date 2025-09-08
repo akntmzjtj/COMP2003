@@ -2,6 +2,8 @@ package edu.curtin.directorymetrics.tree;
 
 /**
  * Exception for NodeIO
+ *
+ * @author Joshua Orbon 20636948
  */
 public class NodeIOException extends Exception
 {

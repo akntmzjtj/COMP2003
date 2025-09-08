@@ -3,6 +3,8 @@ package edu.curtin.directorymetrics.criteria;
 /**
  * A class used to store the line number and the contents of the line from a
  * file.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class LineMatch
 {

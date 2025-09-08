@@ -9,6 +9,8 @@ import edu.curtin.directorymetrics.criteria.Criteria;
  * subclass that represents the directories is implemented to allow for a tree
  * to be formed. The abstract methods must be defined to recurse through the
  * tree.
+ *
+ * @author Joshua Orbon 20636948
  */
 public abstract class Node
 {

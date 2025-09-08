@@ -12,6 +12,8 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Creates an object that can manage inclusions and exclusions for filtering
  * text files. The criterions can be added in the specified form.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class Criteria
 {

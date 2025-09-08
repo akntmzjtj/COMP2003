@@ -5,6 +5,8 @@ import java.io.File;
 /**
  * Implementation of DirectoryNode composite template. Format of the name only
  * involves the name of the 'file'.
+ *
+ * @author Joshua Orbon 20636948
  */
 public class DirectoryNodeShow extends DirectoryNode
 {
