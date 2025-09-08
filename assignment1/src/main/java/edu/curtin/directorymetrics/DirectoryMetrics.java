@@ -13,8 +13,7 @@ import edu.curtin.directorymetrics.tree.NodeIOException;
 import edu.curtin.directorymetrics.tree.node.Node;
 
 /**
- * Entry point into the application. To change the package, and/or the name of
- * this class, make sure to update the 'mainClass = ...' line in build.gradle.
+ * Entry point into Directory Metrics application.
  */
 public class DirectoryMetrics
 {
@@ -25,6 +24,7 @@ public class DirectoryMetrics
     {
         String directoryPath = null;
 
+        // Check if command-line arguments are valid
         if(args.length == 0)
         {
             directoryPath = ".";
@@ -38,12 +38,12 @@ public class DirectoryMetrics
             System.out.println("Too many arguments supplied.");
         }
 
+        // Create directory tree
         if(directoryPath != null)
         {
             // Read directory and store into map
             Map<String, Node> nodeMap = new HashMap<>();
 
-            // TODO: remove the nesting
             try
             {
                 // true if count
@@ -54,6 +54,7 @@ public class DirectoryMetrics
 
                 // Start app
                 DirectoryMetrics app = new DirectoryMetrics();
+
                 try(Scanner input = new Scanner(System.in);)
                 {
                     // Show menu and grab input
@@ -73,23 +74,26 @@ public class DirectoryMetrics
         }
     }
 
+    /**
+     * Main menu of the application
+     *
+     * @param input   Scanner object to grab input from InputStream
+     * @param nodeMap Map object containing the same tree but with different
+     *                implementation of display function.
+     */
     public void menu(Scanner input, Map<String, Node> nodeMap)
     {
         System.out.println("======== Directory Metrics ========");
 
+        // Set default output format
         String currentOutput = "count";
         Node currentDir = nodeMap.get(currentOutput);
 
+        // Create Criteria object
         Criteria c = new Criteria();
         c.setDefault();
 
-        // DEBUG
-        // c.addCriterion("+ t Hello");
-        // c.addCriterion("+ t public");
-        // c.addCriterion("+ r abstract|interface");
-        // c.addCriterion("+ r (abc");
-        // c.addCriterion("* t //");
-
+        // Start the menu loop
         boolean hasExit = false;
         while(!hasExit)
         {
@@ -112,10 +116,12 @@ public class DirectoryMetrics
                     setCriteria(input, c);
                     break;
                 case "2":
+                    // Update the output style
                     currentOutput = changeOutputStyle(input, currentOutput);
                     currentDir = nodeMap.get(currentOutput);
                     break;
                 case "3":
+                    // Find matches and display
                     currentDir.searchMatches(c);
                     currentDir.displayMatches();
                     break;
@@ -133,6 +139,13 @@ public class DirectoryMetrics
         }
     }
 
+    /**
+     * A menu for changing the current output style.
+     *
+     * @param input   Scanner object to grab input from InputStream
+     * @param current The current output style
+     * @return the new output style
+     */
     private String changeOutputStyle(Scanner input, String current)
     {
         boolean outputChosen = false;
@@ -166,6 +179,12 @@ public class DirectoryMetrics
         return null;
     }
 
+    /**
+     * Allows the user to enter regex statements.
+     *
+     * @param input Scanner object to grab input from InputStream.
+     * @param c     Criteria object used to store new expressions.
+     */
     private void setCriteria(Scanner input, Criteria c)
     {
         System.out.println("\n === Set Criteria ===");
