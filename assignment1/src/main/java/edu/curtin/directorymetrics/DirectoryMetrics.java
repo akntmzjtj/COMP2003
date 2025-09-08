@@ -36,11 +36,15 @@ public class DirectoryMetrics
         else
         {
             System.out.println("Too many arguments supplied.");
+            logger.info(
+                () -> "Program has exited as too many arguments were supplied at command-line.");
         }
 
         // Create directory tree
         if(directoryPath != null)
         {
+            logger.info(() -> "Path provided is valid.");
+
             // Read directory and store into map
             Map<String, Node> nodeMap = new HashMap<>();
 
@@ -59,6 +63,8 @@ public class DirectoryMetrics
                 {
                     // Show menu and grab input
                     app.menu(input, nodeMap);
+
+                    logger.info(() -> "Menu now displayed.");
                 }
             }
             catch(NodeIOException e)
@@ -112,6 +118,8 @@ public class DirectoryMetrics
                     // Reset Criteria object
                     c.reset();
 
+                    logger.info(() -> "Current Criteria object resetted.");
+
                     // Set new criteria
                     setCriteria(input, c);
                     break;
@@ -124,6 +132,8 @@ public class DirectoryMetrics
                     // Find matches and display
                     currentDir.searchMatches(c);
                     currentDir.displayMatches();
+
+                    logger.info(() -> "Matches displayed.");
                     break;
                 case "0":
                     hasExit = true;
@@ -161,8 +171,10 @@ public class DirectoryMetrics
             switch (output)
             {
                 case "1":
+                    logger.info(() -> "Output style changed to 'count'.");
                     return "count";
                 case "2":
+                    logger.info(() -> "Output style changed to 'show'.");
                     return "show";
                 case "0":
                     return current;
@@ -209,6 +221,8 @@ public class DirectoryMetrics
                 {
                     c.setDefault();
                 }
+
+                logger.info(() -> "Current Criteria object updated.");
             }
             else
             {
