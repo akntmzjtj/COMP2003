@@ -51,11 +51,11 @@ public class CommsGenerator
     private boolean init = false;
     private double[] curLat = new double[N_PROBES];
     private double[] curLong = new double[N_PROBES];
-    
+
     @SuppressWarnings("PMD.LooseCoupling")  // We call LinkedList.poll(), which List doesn't have.
     private LinkedList<String> messages = new LinkedList<>();
-    
-    
+
+
     private final double randDouble(double min, double max)
     {
         return rand.nextDouble() * (max - min) + min;
@@ -85,12 +85,12 @@ public class CommsGenerator
     {
         this.rand = new Random(seed);
     }
-    
+
     public CommsGenerator()
     {
         this.rand = new Random();
     }
-    
+
     public void setErrorProbability(double errorProb)
     {
         if(errorProb < 0.0 || 0.5 < errorProb)
@@ -116,12 +116,12 @@ public class CommsGenerator
                 messages.add(String.format("%s at %.6f %.6f", label(p), curLat[p], curLong[p]));
             }
         }
-    
+
         long thisTime = System.currentTimeMillis();
         for(long t = lastTime + 999L; t < thisTime; t += 1000L)
         {
             var newMessages = new ArrayList<String>();
-        
+
             while(rand.nextDouble() < MOVE_P)
             {
                 int p = rand.nextInt(N_PROBES);
@@ -129,7 +129,7 @@ public class CommsGenerator
                 curLong[p] = Math.clamp(curLong[p] + randDouble(-MAX_DELTA, MAX_DELTA), LONG_MIN, LONG_MAX);
                 newMessages.add(String.format("%s move %.6f %.6f", label(p), curLat[p], curLong[p]));
             }
-            
+
             while(rand.nextDouble() < MEASURE_P)
             {
                 newMessages.add(String.format("%s measure %s %d",
@@ -166,7 +166,7 @@ public class CommsGenerator
                 parts.add(randString(rand.nextInt(10) + 1));
                 newMessages.add(String.join(" ", parts));
             }
-            
+
             Collections.shuffle(newMessages);
             messages.addAll(newMessages);
         }
