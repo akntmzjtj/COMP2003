@@ -194,7 +194,7 @@ public class Probe implements NextDayObservers
         this.currentSol++;
     }
 
-    public void sendMove(List<Command> moves)
+    public void storeMoves(List<Command> moves)
     {
         // Let current state handle new list of commands
         this.state.sendMove(this, moves);

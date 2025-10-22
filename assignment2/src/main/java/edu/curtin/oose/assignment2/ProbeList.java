@@ -51,7 +51,7 @@ public class ProbeList
         List<Command> moves = generateMoveCommands(lat, longi, newLat, newLongi, maxDegree);
 
         // Send move commands to probe
-        probe.sendMove(moves);
+        probe.storeMoves(moves);
     }
 
     // public void instructMeasure(
