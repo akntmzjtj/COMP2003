@@ -128,20 +128,21 @@ public class Demo
                     probeList.instructMove(probeName, newLat, newLong);
                 }
                 break;
-            // case "measure":
-            //     // Quantities to be measured after first two elements
-            //     List<String> quantities = new LinkedList<>();
+            case "measure":
+                // Quantities to be measured after first two elements
+                List<String> quantities = new LinkedList<>();
 
-            //     for(int i = 2; i < messageSplit.length - 1; i++)
-            //     {
-            //         quantities.add(messageSplit[i]);
-            //     }
+                for(int i = 2; i < messageSplit.length - 1; i++)
+                {
+                    quantities.add(messageSplit[i]);
+                }
 
-            //     // Total number of commands
-            //     int num = Integer.parseInt(messageSplit[messageSplit.length - 1]);
-            //     probeList.instructMeasure(probeName, quantities, num);
+                // Total number of commands
+                int num = Integer.parseInt(messageSplit[messageSplit.length
+                    - 1]);
+                probeList.instructMeasure(probeName, quantities, num);
 
-            //     break;
+                break;
             case "history":
                 probeList.getProbeHistory(probeName);
                 break;

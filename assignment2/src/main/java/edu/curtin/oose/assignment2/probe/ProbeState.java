@@ -7,7 +7,8 @@ import edu.curtin.oose.assignment2.probe.command.Command;
 public interface ProbeState
 {
     String getState();
-    void sendMove(Probe probe, List<Command> moves);
+    void storeMoves(Probe probe, List<Command> moves);
+    void storeMeasure(Probe probe, List<Command> measureList);
     void simulateMove(Probe probe, double lat, double longi);
     void executeMeasure(Probe probe, List<String> toMeasure);
 }

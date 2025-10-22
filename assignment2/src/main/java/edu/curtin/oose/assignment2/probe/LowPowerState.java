@@ -13,7 +13,7 @@ public class LowPowerState implements ProbeState
     }
 
     @Override
-    public void sendMove(Probe probe, List<Command> moves)
+    public void storeMoves(Probe probe, List<Command> moves)
     {
         // Check if commands list has any commands
         if(!probe.getCommands().isEmpty())
@@ -27,6 +27,23 @@ public class LowPowerState implements ProbeState
 
         // Update state
         probe.setState(Probe.MOVING_STATE);
+    }
+
+    @Override
+    public void storeMeasure(Probe probe, List<Command> measureList)
+    {
+        // Check if commands list has any commands
+        if(!probe.getCommands().isEmpty())
+        {
+            // TODO: throw exception
+            throw new IllegalStateException("List of commands must be empty.");
+        }
+
+        // Set probes commands
+        probe.setCommands(measureList);
+
+        // Update state
+        probe.setState(Probe.MEASURING_STATE);
     }
 
     @Override

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.curtin.oose.assignment2.probe.Probe;
+
 public class Move implements Command
 {
     private double lat;
@@ -30,9 +32,14 @@ public class Move implements Command
     }
 
     @Override
-    public String execute()
+    public void execute(Probe probe)
     {
-        return String.format("%.6f %.6f", this.lat, this.longi);
+        // Move probe
+        double newLat = probe.getLattitude() + this.lat;
+        double newLongi = probe.getLongitude() + this.longi;
+
+        probe.setLattitude(newLat);
+        probe.setLongitude(newLongi);
     }
 
     @Override

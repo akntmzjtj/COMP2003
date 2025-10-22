@@ -84,12 +84,12 @@ public class Probe implements NextDayObservers
         return Collections.unmodifiableList(this.lastQuantitiesMeasured);
     }
 
-    protected void setLattitude(double lat)
+    public void setLattitude(double lat)
     {
         this.currentLat = lat;
     }
 
-    protected void setLongitude(double longi)
+    public void setLongitude(double longi)
     {
         this.currentLong = longi;
     }
@@ -197,7 +197,13 @@ public class Probe implements NextDayObservers
     public void storeMoves(List<Command> moves)
     {
         // Let current state handle new list of commands
-        this.state.sendMove(this, moves);
+        this.state.storeMoves(this, moves);
+    }
+
+    public void storeMeasure(List<Command> measureList)
+    {
+        // Let current state handle new list of commands
+        this.state.storeMoves(this, measureList);
     }
 
     public void sendCommand()
@@ -211,7 +217,12 @@ public class Probe implements NextDayObservers
         {
             // Remove first command from list and print
             Command c = this.commands.removeFirst();
+
+            // Print command (simulate send)
             c.printCommand(this.name);
+
+            // Probe execute command (simulation)
+            c.execute(this);
 
             // Store command
             this.commandHistory.add(c.save(this.currentSol));

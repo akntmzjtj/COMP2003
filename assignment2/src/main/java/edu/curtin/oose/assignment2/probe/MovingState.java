@@ -13,10 +13,20 @@ public class MovingState implements ProbeState
     }
 
     @Override
-    public void sendMove(Probe probe, List<Command> moves)
+    public void storeMoves(Probe probe, List<Command> moves)
     {
         // Set probe's commands
         probe.setCommands(moves);
+    }
+
+    @Override
+    public void storeMeasure(Probe probe, List<Command> measureList)
+    {
+        // Stop moving and store commands
+        probe.setCommands(measureList);
+
+        // Update state
+        probe.setState(Probe.MEASURING_STATE);
     }
 
     @Override
