@@ -26,26 +26,26 @@ import java.time.LocalDateTime;
  */
 public class AddReminderWindow
 {
-    private static final int PADDING = 10;    
+    private static final int PADDING = 10;
     private Controller controller;
-    
-    /** 
-     * We need to import a Controller reference, because 
-     * this is where we tell the controller to add a reminder. 
+
+    /**
+     * We need to import a Controller reference, because
+     * this is where we tell the controller to add a reminder.
      */
     public AddReminderWindow(Controller controller)
     {
-        // We need to import a Controller reference, because this part of the UI tells the controller 
+        // We need to import a Controller reference, because this part of the UI tells the controller
         // to add a reminder.
         this.controller = controller;
     }
-    
+
     private JComponent align(JComponent c)
     {
         c.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         return c;
     }
-    
+
     public void show()
     {
         JFrame window = new JFrame("Add Reminder");
@@ -56,12 +56,12 @@ public class AddReminderWindow
         dateSettings.setAllowEmptyDates(false);
         timeSettings.setAllowEmptyTimes(false);
         DateTimePicker dateTimePicker = new DateTimePicker(dateSettings, timeSettings);
-        
+
         // These are the other important widgets.
-        JTextField taskWidget = new JTextField(50);    // Space to enter some reminder text. 
+        JTextField taskWidget = new JTextField(50);    // Space to enter some reminder text.
         JButton addButton = new JButton("Add");     // A button to add the reminder.
         JButton closeButton = new JButton("Close"); // A button to close the window.
-                
+
         // Now we do the boring window layout stuff.
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -69,11 +69,11 @@ public class AddReminderWindow
         buttonPanel.add(addButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(PADDING, 0)));
         buttonPanel.add(closeButton);
-        
+
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
-        
+
         contentPane.add(align(new JLabel("Task")));
         contentPane.add(align(taskWidget));
         contentPane.add(Box.createRigidArea(new Dimension(01, PADDING)));
@@ -82,8 +82,8 @@ public class AddReminderWindow
         contentPane.add(Box.createRigidArea(new Dimension(0, PADDING)));
         contentPane.add(align(buttonPanel));
         window.getRootPane().setContentPane(contentPane);
-        
-        
+
+
         // The add button tells the controller to add a new reminder.
         addButton.addActionListener(
             new ActionListener()
@@ -94,20 +94,23 @@ public class AddReminderWindow
                     // Retrieve the text entered by the user.
                     String task = taskWidget.getText();
                     LocalDateTime time = dateTimePicker.getDateTimeStrict();
-                    
+
                     if(task.length() > 0 && time != null)
                     {
                         // If the fields are not empty, add a new reminder.
                         controller.addReminder(task, time);
-                                                
+
                         // FIXME: this change needs to be reflected on-screen and in the reminders file.
                         // ...
+
+                        // Hide window (for me really)
+                        window.setVisible(false);
                     }
                 }
             }
         );
-        
-        // The close button simply hides this window; i.e. making it invisible to the user (but 
+
+        // The close button simply hides this window; i.e. making it invisible to the user (but
         // still present in memory).
         closeButton.addActionListener(
             new ActionListener()
@@ -119,7 +122,7 @@ public class AddReminderWindow
                 }
             }
         );
-        
+
         // Trigger the window layout algorithm.
         window.pack();
         window.setVisible(true);

@@ -9,22 +9,25 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Static methods for reading and writing the reminders file.
  */
-public class FileManager
+public class FileManager implements Observer
 {
-    public FileManager() {}
-    
+    public FileManager()
+    {
+    }
+
     /**
      * Reads a reminders file, given a filename, and returns a list of Reminder
      * objects.
      */
-    public List<Reminder> read(String filename) throws IOException, ReminderFileFormatException
+    public List<Reminder> read(String filename) throws IOException,
+        ReminderFileFormatException
     {
         List<Reminder> reminders = new ArrayList<>();
-        try(BufferedReader reader = new BufferedReader(new FileReader(filename)))
+        try(BufferedReader reader = new BufferedReader(new FileReader(
+            filename)))
         {
             String line = reader.readLine();
             while(line != null)
@@ -32,13 +35,13 @@ public class FileManager
                 if(!line.trim().isEmpty()) // Ignore empty/whitespace lines
                 {
                     String[] parts = line.split(" ", 2);
-                    
+
                     if(parts.length != 2)
                     {
-                        throw new ReminderFileFormatException(
-                            String.format("Invalid record: '%s'", line));
+                        throw new ReminderFileFormatException(String.format(
+                            "Invalid record: '%s'", line));
                     }
-                
+
                     LocalDateTime time;
                     try
                     {
@@ -46,11 +49,10 @@ public class FileManager
                     }
                     catch(DateTimeParseException e)
                     {
-                        throw new ReminderFileFormatException(
-                            String.format("Invalid date-time string: '%s'", parts[0]),
-                            e);
+                        throw new ReminderFileFormatException(String.format(
+                            "Invalid date-time string: '%s'", parts[0]), e);
                     }
-                        
+
                     reminders.add(new Reminder(parts[1], time));
                 }
                 line = reader.readLine();
@@ -58,20 +60,34 @@ public class FileManager
         }
         return reminders;
     }
-    
+
     /**
-     * Writes the reminders file, overwriting any existing one, given a
-     * filename and a list of Reminders. This method obviously endeavours to 
-     * write in the same format that the read() method would expect.
+     * Writes the reminders file, overwriting any existing one, given a filename
+     * and a list of Reminders. This method obviously endeavours to write in the
+     * same format that the read() method would expect.
      */
-    public void write(String filename, List<Reminder> reminders) throws IOException
+    public void write(String filename, List<Reminder> reminders)
+        throws IOException
     {
         try(PrintWriter writer = new PrintWriter(filename))
-        {            
+        {
             for(Reminder rem : reminders)
             {
-                writer.printf("%s %s\n", rem.getTime().toString(), rem.getTask());
+                writer.printf("%s %s\n", rem.getTime().toString(), rem
+                    .getTask());
             }
+        }
+    }
+
+    public void update(List<Reminder> reminders)
+    {
+        try
+        {
+            write("reminders.txt", reminders);
+        }
+        catch(Exception e)
+        {
+            System.err.println("Error occurred when saving reminders.");
         }
     }
 }
