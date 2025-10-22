@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import edu.curtin.oose.assignment2.probe.NextDayObservers;
+import edu.curtin.oose.assignment2.probe.NextDayObserver;
 import edu.curtin.oose.assignment2.probe.Probe;
 import edu.curtin.oose.assignment2.probe.command.Command;
 import edu.curtin.oose.assignment2.probe.command.Measure;
@@ -14,12 +14,12 @@ import edu.curtin.oose.assignment2.probe.command.Move;
 public class ProbeList
 {
     private Map<String, Probe> probes;
-    private List<NextDayObservers> nextDayObserveres;
+    private List<NextDayObserver> nextDayObservers;
 
     public ProbeList()
     {
         this.probes = new HashMap<>();
-        this.nextDayObserveres = new LinkedList<>();
+        this.nextDayObservers = new LinkedList<>();
     }
 
     public void addProbe(String name, Probe probe)
@@ -28,7 +28,7 @@ public class ProbeList
         this.probes.put(name, probe);
 
         // Add as observer
-        this.nextDayObserveres.add(probe);
+        this.nextDayObservers.add(probe);
     }
 
     public void instructMove(String probeName, double newLat, double newLongi)
@@ -119,7 +119,7 @@ public class ProbeList
     public void sendCommands()
     {
         // Next day for probes
-        nextDay();
+        notifyNextDay();
 
         for(Probe p : probes.values())
         {
@@ -177,9 +177,9 @@ public class ProbeList
         return out;
     }
 
-    private void nextDay()
+    private void notifyNextDay()
     {
-        for(NextDayObservers m : nextDayObserveres)
+        for(NextDayObserver m : nextDayObservers)
         {
             m.incrementSol();
         }

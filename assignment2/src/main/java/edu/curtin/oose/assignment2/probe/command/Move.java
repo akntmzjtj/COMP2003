@@ -27,8 +27,7 @@ public class Move implements Command
     @Override
     public String save(int sol)
     {
-        return  String.format("SOL %d: %+.6f %+.6f", sol, this.lat,
-            this.longi);
+        return String.format("SOL %d: %+.6f %+.6f", sol, this.lat, this.longi);
     }
 
     @Override

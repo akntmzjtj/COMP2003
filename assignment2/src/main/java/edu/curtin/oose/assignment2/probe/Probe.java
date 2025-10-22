@@ -12,7 +12,7 @@ import edu.curtin.oose.assignment2.probe.command.Command;
  * It's mainly a simulation and cannot instruct a physical probe to move or to
  * return actual measurements.
  */
-public class Probe implements NextDayObservers
+public class Probe implements NextDayObserver
 {
     // States
     protected static final ProbeState LOW_POWER_STATE = new LowPowerState();
