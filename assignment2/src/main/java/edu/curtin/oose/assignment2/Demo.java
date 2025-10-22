@@ -112,20 +112,20 @@ public class Demo
         String[] messageSplit = message.split(" ");
 
         // Format
-        String probe = messageSplit[0];
+        String probeName = messageSplit[0];
         String command = messageSplit[1];
 
         switch (command)
         {
             case "status":
-                probeList.getProbeStatus(probe);
+                probeList.getProbeStatus(probeName);
                 break;
             case "move":
                 if(messageSplit.length == 4)
                 {
                     double newLat = Double.parseDouble(messageSplit[2]);
                     double newLong = Double.parseDouble(messageSplit[3]);
-                    probeList.moveProbe(probe, newLat, newLong);
+                    probeList.moveProbe(probeName, newLat, newLong);
                 }
                 break;
             case "measure":
@@ -139,11 +139,11 @@ public class Demo
 
                 // Total number of commands
                 int num = Integer.parseInt(messageSplit[messageSplit.length - 1]);
-                probeList.instructMeasure(probe, quantities, num);
+                probeList.instructMeasure(probeName, quantities, num);
 
                 break;
             case "history":
-                probeList.getProbeHistory(probe);
+                probeList.getProbeHistory(probeName);
                 break;
         }
     }
