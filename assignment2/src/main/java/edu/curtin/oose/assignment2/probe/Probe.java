@@ -1,5 +1,9 @@
 package edu.curtin.oose.assignment2.probe;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +16,7 @@ import edu.curtin.oose.assignment2.probe.command.Command;
  * It's mainly a simulation and cannot instruct a physical probe to move or to
  * return actual measurements.
  */
-public class Probe implements NextDayObserver
+public class Probe implements NextDayObserver, DiagnosticObserver
 {
     // States
     protected static final ProbeState LOW_POWER_STATE = new LowPowerState();
@@ -106,7 +110,7 @@ public class Probe implements NextDayObserver
     public void storeMeasure(List<Command> measureList)
     {
         // Let current state handle new list of commands
-        this.state.storeMoves(this, measureList);
+        this.state.storeMeasure(this, measureList);
     }
 
     public void sendCommand()
@@ -130,5 +134,14 @@ public class Probe implements NextDayObserver
             // Store command
             this.commandHistory.add(c.save(this.currentSol));
         }
+    }
+
+    @Override
+    public void write(DiagnosticWriter w)
+    {
+        // Append status
+        String s = String.format("    %s at %.6f %.6f, %s\n", this.name
+            .toUpperCase(), this.currentLat, this.currentLong, this.getState());
+        w.append(s);
     }
 }

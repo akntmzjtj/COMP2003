@@ -45,7 +45,7 @@ public class Measure implements Command
             throw new IllegalStateException("Command cannot be saved without being executed");
         }
 
-        return this.measurements;
+        return String.format("SOL %d: %s", sol, this.measurements);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Measure implements Command
 
         // Simulate probe measuring quantities and print
         System.out.printf("TO EARTH: FROM %s: %s\n", probe.getName()
-            .toUpperCase(), measurements);
+            .toUpperCase(), this.measurements);
     }
 
     @Override

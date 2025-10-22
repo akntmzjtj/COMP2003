@@ -5,8 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.NextDayObserver;
 import edu.curtin.oose.assignment2.probe.Probe;
+import edu.curtin.oose.assignment2.probe.DiagnosticObserver;
 import edu.curtin.oose.assignment2.probe.command.Command;
 import edu.curtin.oose.assignment2.probe.command.Measure;
 import edu.curtin.oose.assignment2.probe.command.Move;
@@ -15,11 +17,15 @@ public class ProbeList
 {
     private Map<String, Probe> probes;
     private List<NextDayObserver> nextDayObservers;
+    private List<DiagnosticObserver> writeObservers;
+    private int currentSol;
 
     public ProbeList()
     {
         this.probes = new HashMap<>();
         this.nextDayObservers = new LinkedList<>();
+        this.writeObservers = new LinkedList<>();
+        this.currentSol = 0;
     }
 
     public void addProbe(String name, Probe probe)
@@ -29,6 +35,7 @@ public class ProbeList
 
         // Add as observer
         this.nextDayObservers.add(probe);
+        this.writeObservers.add(probe);
     }
 
     public void instructMove(String probeName, double newLat, double newLongi)
@@ -120,11 +127,20 @@ public class ProbeList
     {
         // Next day for probes
         notifyNextDay();
+        this.currentSol++;
 
         for(Probe p : probes.values())
         {
             p.sendCommand();
         }
+    }
+
+    public void writeDiagnostics(DiagnosticWriter w)
+    {
+        w.append("SOL " + this.currentSol + ":" + "\n");
+
+        // Write probes to diagnostic
+        notifyWrite(w);
     }
 
     private List<Command> generateMoveCommands(
@@ -182,6 +198,14 @@ public class ProbeList
         for(NextDayObserver m : nextDayObservers)
         {
             m.incrementSol();
+        }
+    }
+
+    private void notifyWrite(DiagnosticWriter w)
+    {
+        for(DiagnosticObserver o : this.writeObservers)
+        {
+            o.write(w);
         }
     }
 }

@@ -27,6 +27,8 @@ public class MeasuringState implements ProbeState
     @Override
     public void storeMeasure(Probe probe, List<Command> measureList)
     {
+        System.out.println("measuring...");
+
         // Generate new list of commands using current and new quantities
         List<Command> newCommands = new LinkedList<>();
 

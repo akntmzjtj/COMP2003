@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.Probe;
 
 /**
@@ -23,6 +24,10 @@ public class Demo
         ProbeList probeList = new ProbeList();
         Demo marsSciSat = new Demo();
         LinkedList<String> messages = new LinkedList<>();
+
+        // Create diagnostic file
+        DiagnosticWriter diag = new DiagnosticWriter();
+        diag.createFile();
 
         // Grab locations of listed probes
         marsSciSat.getMessages(messages, inp);
@@ -73,6 +78,9 @@ public class Demo
 
                 // Instruct probes
                 probeList.sendCommands();
+
+                // Write to diagnostics file
+                probeList.writeDiagnostics(diag);
             }
         }
         catch(IOException e)
