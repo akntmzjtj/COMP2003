@@ -7,18 +7,18 @@ import java.util.Map;
 
 import edu.curtin.oose.assignment2.probe.NextDayObservers;
 import edu.curtin.oose.assignment2.probe.Probe;
+import edu.curtin.oose.assignment2.probe.command.Command;
+import edu.curtin.oose.assignment2.probe.command.Move;
 
 public class ProbeList
 {
     private Map<String, Probe> probes;
     private List<NextDayObservers> nextDayObserveres;
-    private Map<String, LinkedList<String>> probesCommands;
 
     public ProbeList()
     {
         this.probes = new HashMap<>();
         this.nextDayObserveres = new LinkedList<>();
-        this.probesCommands = new HashMap<>();
     }
 
     public void addProbe(String name, Probe probe)
@@ -28,17 +28,10 @@ public class ProbeList
 
         // Add as observer
         this.nextDayObserveres.add(probe);
-
-        // Initialise probe commands and history string list
-        this.probesCommands.put(name, new LinkedList<>());
     }
 
-    public void moveProbe(String probeName, double newLat, double newLongi)
+    public void instructMove(String probeName, double newLat, double newLongi)
     {
-        // Clear current set of commands for probe
-        LinkedList<String> commands = probesCommands.get(probeName);
-        commands.clear();
-
         // Check if probeName is rover or drone
         double maxDegree = 0;
         if(probeName.contains("rover"))
@@ -50,58 +43,65 @@ public class ProbeList
             maxDegree = 0.018;
         }
 
-        // calculate move commands
-        calculateMoveCommands(commands, probes.get(probeName), newLat, newLongi,
-            maxDegree);
+        Probe probe = probes.get(probeName);
+        double lat = probe.getLattitude();
+        double longi = probe.getLongitude();
+
+        // Calculate move commands
+        List<Command> moves = generateMoveCommands(lat, longi, newLat, newLongi, maxDegree);
+
+        // Send move commands to probe
+        probe.sendMove(moves);
     }
 
-    public void instructMeasure(
-        String probeName, List<String> quantities, int num
-    )
-    {
-        // Get probe
-        Probe p = this.probes.get(probeName);
+    // public void instructMeasure(
+    //     String probeName, List<String> quantities, int num
+    // )
+    // {
+    //     // Get probe
+    //     Probe p = this.probes.get(probeName);
 
-        if(p == null)
-        {
-            // TODO: Throw exception
-            // throw new Exception("Probe not found");
-            System.out.println("Probe not found");
-        }
+    //     if(p == null)
+    //     {
+    //         // TODO: Throw exception
+    //         // throw new Exception("Probe not found");
+    //         System.out.println("Probe not found");
+    //     }
 
-        // Check status of the probe
-        String state = p.getState();
+    //     // Check status of the probe
+    //     String state = p.getState();
 
-        // Clear commands
-        LinkedList<String> commands = probesCommands.get(probeName);
-        commands.clear();
+    //     // Clear commands
+    //     LinkedList<String> commands = probesCommands.get(probeName);
+    //     commands.clear();
 
-        if(state.equals("MEASURING"))
-        {
-            // Get the quantities currently measuring and add to new list
-            for(String s : p.getLastQuantitiesMeasured())
-            {
-                if(!quantities.contains(s.toLowerCase()))
-                {
-                    quantities.add(s.toLowerCase());
-                }
-            }
-        }
+    //     if(state.equals("MEASURING"))
+    //     {
+    //         // Get the quantities currently measuring and add to new list
+    //         for(String s : p.getLastQuantitiesMeasured())
+    //         {
+    //             if(!quantities.contains(s.toLowerCase()))
+    //             {
+    //                 quantities.add(s.toLowerCase());
+    //             }
+    //         }
+    //     }
 
-        // Generate measure commands
-        String quantitiesPrint = quantities.removeFirst().toUpperCase();
-        for(String s : quantities)
-        {
-            quantitiesPrint += ", " + s.toUpperCase();
-        }
+    //     // Generate measure commands
+    //     String quantitiesPrint = quantities.removeFirst().toUpperCase();
+    //     for(String s : quantities)
+    //     {
+    //         quantitiesPrint += ", " + s.toUpperCase();
+    //     }
 
-        String c;
-        for(int i = 0; i < num; i++)
-        {
-            c = String.format("TO %s: MEASURE %s", probeName.toUpperCase(), quantitiesPrint);
-            commands.add(c);
-        }
-    }
+    //     String c;
+    //     for(int i = 0; i < num; i++)
+    //     {
+    //         c = String.format("TO %s: MEASURE %s", probeName.toUpperCase(),
+    //             quantitiesPrint);
+    //         commands.add(c);
+    //     }
+    // }
 
     public void getProbeStatus(String probeName)
     {
@@ -141,45 +141,24 @@ public class ProbeList
         }
     }
 
+    /**
+     * Send commands to physical probe (simply prints it for simulation)
+     */
     public void sendCommands()
     {
         // Next day for probes
         nextDay();
 
-        for(Map.Entry<String, LinkedList<String>> entry : probesCommands
-            .entrySet())
+        for(Probe p : probes.values())
         {
-            String probeName = entry.getKey();
-            LinkedList<String> list = entry.getValue();
-
-            Probe p = probes.get(probeName);
-
-            if(list.isEmpty())
-            {
-                // Set probe to lower power mode
-                p.standBy();
-            }
-            else
-            {
-                // Remove command from command list
-                String command = list.removeFirst();
-
-                // Print and send out command
-                System.out.println(command);
-                p.runCommand(command);
-            }
+            p.sendCommand();
         }
     }
 
-    private void calculateMoveCommands(
-        LinkedList<String> probeCommands, Probe probe, double targetLat,
-        double targetLong, double maxDegree
+    private List<Command> generateMoveCommands(
+        double currentLat, double currentLong, double targetLat, double targetLong, double maxDegree
     )
     {
-        // current position
-        double currentLat = probe.getLattitude();
-        double currentLong = probe.getLongitude();
-
         // calculate difference for lattitude and longitude
         double distanceLat = targetLat - currentLat;
         double distanceLong = targetLong - currentLong;
@@ -201,15 +180,20 @@ public class ProbeList
         double finalDegreeLat = Math.cos(angle) * (distance % maxDegree);
         double finalDegreeLong = Math.sin(angle) * (distance % maxDegree);
 
+        List<Command> out = new LinkedList<>();
         for(int i = 0; i < maxNum; i++)
         {
-            probeCommands.add(String.format("TO %s: MOVE BY %+.6f %+.6f", probe
-                .getName().toUpperCase(), maxDegreeLat, maxDegreeLong));
+            out.add(new Move(maxDegreeLat, maxDegreeLong));
         }
 
-        probeCommands.add(String.format("TO %s: MOVE BY %+.6f %+.6f", probe
-            .getName().toUpperCase(), finalDegreeLat, finalDegreeLong));
+        out.add(new Move(finalDegreeLat, finalDegreeLong));
+
+        return out;
     }
+
+    // private List<Command> generateMeasureCommands()
+    // {
+    // }
 
     private void nextDay()
     {

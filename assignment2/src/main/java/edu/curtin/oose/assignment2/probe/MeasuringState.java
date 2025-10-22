@@ -2,12 +2,21 @@ package edu.curtin.oose.assignment2.probe;
 
 import java.util.List;
 
+import edu.curtin.oose.assignment2.probe.command.Command;
+
 public class MeasuringState implements ProbeState
 {
     @Override
     public String getState()
     {
         return "MEASURING";
+    }
+
+    @Override
+    public void sendMove(Probe probe, List<Command> moves)
+    {
+        // Set probe's commands
+        probe.setCommands(moves);
     }
 
     @Override

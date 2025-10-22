@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import edu.curtin.oose.assignment2.probe.command.Command;
+
 /**
  * The Probe class is a representation of the physical probe deployed on Mars.
  * It keeps track of its location and can display what it's currently measuring.
@@ -14,7 +16,7 @@ import java.util.Random;
 public class Probe implements NextDayObservers
 {
     // States
-    protected static final ProbeState LOWER_POWER_STATE = new LowPowerState();
+    protected static final ProbeState LOW_POWER_STATE = new LowPowerState();
     protected static final ProbeState MOVING_STATE = new MovingState();
     protected static final ProbeState MEASURING_STATE = new MeasuringState();
 
@@ -26,14 +28,16 @@ public class Probe implements NextDayObservers
     private ProbeState state;
 
     private int currentSol;
+    private List<Command> commands;
     private LinkedList<String> commandHistory;
     private List<String> lastQuantitiesMeasured;
 
     public Probe(String name, double lat, double longi)
     {
         this.name = name;
-        this.state = LOWER_POWER_STATE;
+        this.state = LOW_POWER_STATE;
         this.currentSol = 0;
+        this.commands = new LinkedList<>();
         this.commandHistory = new LinkedList<>();
         this.lastQuantitiesMeasured = new LinkedList<>();
 
@@ -64,6 +68,11 @@ public class Probe implements NextDayObservers
         return this.state.getState();
     }
 
+    public List<Command> getCommands()
+    {
+        return Collections.unmodifiableList(this.commands);
+    }
+
     public List<String> getHistory()
     {
         List<String> list = this.commandHistory;
@@ -90,9 +99,14 @@ public class Probe implements NextDayObservers
         this.state = state;
     }
 
+    public void setCommands(List<Command> commands)
+    {
+        this.commands = commands;
+    }
+
     public void standBy()
     {
-        this.state = Probe.LOWER_POWER_STATE;
+        this.state = Probe.LOW_POWER_STATE;
     }
 
     private void simulateMove(String command)
@@ -157,7 +171,8 @@ public class Probe implements NextDayObservers
         this.commandHistory.add(save);
 
         // PRINT
-        System.out.printf("TO EARTH: %s: %s\n", this.name.toUpperCase(), measured);
+        System.out.printf("TO EARTH: %s: %s\n", this.name.toUpperCase(),
+            measured);
     }
 
     public void runCommand(String command)
@@ -177,5 +192,29 @@ public class Probe implements NextDayObservers
     public void incrementSol()
     {
         this.currentSol++;
+    }
+
+    public void sendMove(List<Command> moves)
+    {
+        // Let current state handle new list of commands
+        this.state.sendMove(this, moves);
+    }
+
+    public void sendCommand()
+    {
+        // If empty, set to low state mode
+        if(this.commands.isEmpty())
+        {
+            this.state = Probe.LOW_POWER_STATE;
+        }
+        else
+        {
+            // Remove first command from list and print
+            Command c = this.commands.removeFirst();
+            c.printCommand(this.name);
+
+            // Store command
+            this.commandHistory.add(c.save(this.currentSol));
+        }
     }
 }
