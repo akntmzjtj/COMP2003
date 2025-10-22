@@ -28,18 +28,4 @@ public class MovingState implements ProbeState
         // Update state
         probe.setState(Probe.MEASURING_STATE);
     }
-
-    @Override
-    public void simulateMove(Probe probe, double lat, double longi)
-    {
-        probe.setLattitude(probe.getLattitude() + lat);
-        probe.setLongitude(probe.getLongitude() + longi);
-    }
-
-    @Override
-    public void executeMeasure(Probe probe, List<String> toMeasure)
-    {
-        probe.setState(Probe.MEASURING_STATE);
-        probe.saveMeasure(toMeasure);
-    }
 }

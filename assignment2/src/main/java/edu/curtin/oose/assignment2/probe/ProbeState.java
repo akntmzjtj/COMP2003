@@ -9,6 +9,4 @@ public interface ProbeState
     String getState();
     void storeMoves(Probe probe, List<Command> moves);
     void storeMeasure(Probe probe, List<Command> measureList);
-    void simulateMove(Probe probe, double lat, double longi);
-    void executeMeasure(Probe probe, List<String> toMeasure);
 }

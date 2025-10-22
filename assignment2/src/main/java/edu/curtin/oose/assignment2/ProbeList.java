@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import edu.curtin.oose.assignment2.probe.NextDayObservers;
 import edu.curtin.oose.assignment2.probe.Probe;
@@ -16,13 +15,11 @@ public class ProbeList
 {
     private Map<String, Probe> probes;
     private List<NextDayObservers> nextDayObserveres;
-    private Random random; // used to simulate measurements
 
     public ProbeList()
     {
         this.probes = new HashMap<>();
         this.nextDayObserveres = new LinkedList<>();
-        this.random = new Random();
     }
 
     public void addProbe(String name, Probe probe)
@@ -77,55 +74,6 @@ public class ProbeList
         // Store measure instructions
         probe.storeMeasure(measureList);
     }
-
-    // public void instructMeasure(
-    // String probeName, List<String> quantities, int num
-    // )
-    // {
-    // // Get probe
-    // Probe p = this.probes.get(probeName);
-
-    // if(p == null)
-    // {
-    // // TODO: Throw exception
-    // // throw new Exception("Probe not found");
-    // System.out.println("Probe not found");
-    // }
-
-    // // Check status of the probe
-    // String state = p.getState();
-
-    // // Clear commands
-    // LinkedList<String> commands = probesCommands.get(probeName);
-    // commands.clear();
-
-    // if(state.equals("MEASURING"))
-    // {
-    // // Get the quantities currently measuring and add to new list
-    // for(String s : p.getLastQuantitiesMeasured())
-    // {
-    // if(!quantities.contains(s.toLowerCase()))
-    // {
-    // quantities.add(s.toLowerCase());
-    // }
-    // }
-    // }
-
-    // // Generate measure commands
-    // String quantitiesPrint = quantities.removeFirst().toUpperCase();
-    // for(String s : quantities)
-    // {
-    // quantitiesPrint += ", " + s.toUpperCase();
-    // }
-
-    // String c;
-    // for(int i = 0; i < num; i++)
-    // {
-    // c = String.format("TO %s: MEASURE %s", probeName.toUpperCase(),
-    // quantitiesPrint);
-    // commands.add(c);
-    // }
-    // }
 
     public void getProbeStatus(String probeName)
     {

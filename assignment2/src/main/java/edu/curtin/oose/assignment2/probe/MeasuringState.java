@@ -19,6 +19,9 @@ public class MeasuringState implements ProbeState
     {
         // Set probe's commands
         probe.setCommands(moves);
+
+        // Update state
+        probe.setState(Probe.MOVING_STATE);
     }
 
     @Override
@@ -28,10 +31,8 @@ public class MeasuringState implements ProbeState
         List<Command> newCommands = new LinkedList<>();
 
         // Add current quantities being measured
-        List<String> totalQuantities = new LinkedList<>(probe.getCommands()
-            .getFirst().getData());
-
-        System.out.println("DEBUG: currentSize: " + totalQuantities.size());
+        List<String> current = probe.getCommands().getFirst().getData();
+        List<String> totalQuantities = new LinkedList<>(current);
 
         // Add new quantities to be measured
         for(String s : measureList.getFirst().getData())
@@ -43,8 +44,6 @@ public class MeasuringState implements ProbeState
             }
         }
 
-        System.out.println("DEBUG: totalSize: " + totalQuantities.size());
-
         for(int i = 0; i < measureList.size(); i++)
         {
             newCommands.add(new Measure(totalQuantities));
@@ -52,19 +51,5 @@ public class MeasuringState implements ProbeState
 
         // Set as new commands
         probe.setCommands(newCommands);
-    }
-
-    @Override
-    public void simulateMove(Probe probe, double lat, double longi)
-    {
-        probe.setLattitude(probe.getLattitude() + lat);
-        probe.setLongitude(probe.getLongitude() + longi);
-        probe.setState(Probe.MOVING_STATE);
-    }
-
-    @Override
-    public void executeMeasure(Probe probe, List<String> toMeasure)
-    {
-        probe.saveMeasure(toMeasure);
     }
 }
