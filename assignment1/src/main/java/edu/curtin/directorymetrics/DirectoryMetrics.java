@@ -10,6 +10,9 @@ import edu.curtin.directorymetrics.criteria.Criteria;
 import edu.curtin.directorymetrics.criteria.CriteriaException;
 import edu.curtin.directorymetrics.tree.NodeIO;
 import edu.curtin.directorymetrics.tree.NodeIOException;
+import edu.curtin.directorymetrics.tree.node.DisplayCount;
+import edu.curtin.directorymetrics.tree.node.DisplayFormat;
+import edu.curtin.directorymetrics.tree.node.DisplayShow;
 import edu.curtin.directorymetrics.tree.node.Node;
 
 /**
@@ -47,16 +50,10 @@ public class DirectoryMetrics
         {
             logger.info(() -> "Path provided is valid.");
 
-            // Read directory and store into map
-            Map<String, Node> nodeMap = new HashMap<>();
-
             try
             {
-                // true if count
-                nodeMap.put("count", NodeIO.readDirectory(directoryPath, true));
-
-                // false if show lines
-                nodeMap.put("show", NodeIO.readDirectory(directoryPath, false));
+                // Read directory
+                Node root = NodeIO.readDirectory(directoryPath);
 
                 // Start app
                 DirectoryMetrics app = new DirectoryMetrics();
@@ -64,7 +61,7 @@ public class DirectoryMetrics
                 try(Scanner input = new Scanner(System.in);)
                 {
                     // Show menu and grab input
-                    app.menu(input, nodeMap);
+                    app.menu(input, root);
 
                     logger.info(() -> "Menu now displayed.");
                 }
@@ -89,13 +86,15 @@ public class DirectoryMetrics
      * @param nodeMap Map object containing the same tree but with different
      *                implementation of display function.
      */
-    public void menu(Scanner input, Map<String, Node> nodeMap)
+    public void menu(Scanner input, Node root)
     {
         System.out.println("======== Directory Metrics ========");
 
         // Set default output format
         String currentOutput = "count";
-        Node currentDir = nodeMap.get(currentOutput);
+        Map<String, DisplayFormat> displayMap = new HashMap<>();
+        displayMap.put("count", new DisplayCount());
+        displayMap.put("show", new DisplayShow());
 
         // Create Criteria object
         Criteria c = new Criteria();
@@ -128,12 +127,11 @@ public class DirectoryMetrics
                 case "2":
                     // Update the output style
                     currentOutput = changeOutputStyle(input, currentOutput);
-                    currentDir = nodeMap.get(currentOutput);
                     break;
                 case "3":
                     // Find matches and display
-                    currentDir.searchMatches(c);
-                    currentDir.displayMatches();
+                    root.searchMatches(c);
+                    root.displayMatches(displayMap.get(currentOutput));
 
                     logger.info(() -> "Matches displayed.");
                     break;

@@ -14,7 +14,7 @@ import edu.curtin.directorymetrics.criteria.Criteria;
  */
 public abstract class Node
 {
-    protected final static String INDENT = "   ";
+    protected final static String INDENT = "    ";
 
     private int matchesCount;
     private File file;
@@ -101,13 +101,13 @@ public abstract class Node
      *
      * @param indent Contains the number of whitespace for indentation
      */
-    protected abstract void displayMatches(String indent);
+    protected abstract void displayMatches(DisplayFormat display, String indent);
 
     /**
      * A function wrapper to run the displayMatches() function recursively.
      */
-    public final void displayMatches()
+    public final void displayMatches(DisplayFormat display)
     {
-        displayMatches("");
+        displayMatches(display, "");
     }
 }

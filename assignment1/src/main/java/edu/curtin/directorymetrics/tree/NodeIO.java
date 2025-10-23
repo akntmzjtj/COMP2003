@@ -7,11 +7,7 @@ import java.util.Queue;
 
 import edu.curtin.directorymetrics.tree.node.Node;
 import edu.curtin.directorymetrics.tree.node.DirectoryNode;
-import edu.curtin.directorymetrics.tree.node.DirectoryNodeShow;
-import edu.curtin.directorymetrics.tree.node.DirectoryNodeCount;
 import edu.curtin.directorymetrics.tree.node.FileNode;
-import edu.curtin.directorymetrics.tree.node.FileNodeShow;
-import edu.curtin.directorymetrics.tree.node.FileNodeCount;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,8 +31,7 @@ public class NodeIO
      * @throws NodeIOException When the provided directory does not exist or
      *                         points to a file
      */
-    public static Node readDirectory(String dir, boolean isCount)
-        throws NodeIOException
+    public static Node readDirectory(String dir) throws NodeIOException
     {
         // Create File object with directory given
         File rootDir = new File(dir);
@@ -52,15 +47,7 @@ public class NodeIO
         Map<String, DirectoryNode> map = new HashMap<>();
 
         // Add new DirectoryNode obj (depending on bool)
-        DirectoryNode rootDirNode;
-        if(isCount)
-        {
-            rootDirNode = new DirectoryNodeCount(rootDir);
-        }
-        else
-        {
-            rootDirNode = new DirectoryNodeShow(rootDir);
-        }
+        DirectoryNode rootDirNode = new DirectoryNode(rootDir);
         map.put(rootDir.getPath(), rootDirNode);
 
         // Queue for directories to recurse into
@@ -82,15 +69,7 @@ public class NodeIO
                     queue.add(file);
 
                     // Add to parent directory
-                    DirectoryNode dirNode;
-                    if(isCount)
-                    {
-                        dirNode = new DirectoryNodeCount(file);
-                    }
-                    else
-                    {
-                        dirNode = new DirectoryNodeShow(file);
-                    }
+                    DirectoryNode dirNode = new DirectoryNode(file);
                     map.get(temp.getPath()).addDirectory(dirNode);
 
                     // Add to temporary map
@@ -99,15 +78,7 @@ public class NodeIO
                 else
                 {
                     // Add to parent directory as a file
-                    FileNode fileNode;
-                    if(isCount)
-                    {
-                        fileNode = new FileNodeCount(file);
-                    }
-                    else
-                    {
-                        fileNode = new FileNodeShow(file);
-                    }
+                    FileNode fileNode = new FileNode(file);
                     map.get(temp.getPath()).addFile(fileNode);
                 }
             }

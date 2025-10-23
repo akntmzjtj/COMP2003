@@ -12,7 +12,7 @@ import edu.curtin.directorymetrics.criteria.LineMatch;
  *
  * @author Joshua Orbon 20636948
  */
-public abstract class FileNode extends Node
+public class FileNode extends Node
 {
     private LineMatch[] matches;
 
@@ -70,20 +70,11 @@ public abstract class FileNode extends Node
      * @param indent The number of whitespace to print before the content.
      */
     @Override
-    protected void displayMatches(String indent)
+    protected void displayMatches(DisplayFormat display, String indent)
     {
         if(getMatchesCount() > 0)
         {
-            // format will include new-line char at the end
-            System.out.print(formatMatches(indent));
+            display.printFile(this, indent);
         }
     }
-
-    /**
-     * Formats the lines for display
-     *
-     * @param indent The number of whitespace to print before the content.
-     * @return formatted string
-     */
-    protected abstract String formatMatches(String indent);
 }

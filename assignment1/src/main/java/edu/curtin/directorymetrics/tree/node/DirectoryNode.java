@@ -14,7 +14,7 @@ import java.util.LinkedList;
  *
  * @author Joshua Orbon 20636948
  */
-public abstract class DirectoryNode extends Node
+public class DirectoryNode extends Node
 {
     private Queue<Node> directories;
     private Queue<Node> files;
@@ -81,33 +81,25 @@ public abstract class DirectoryNode extends Node
      * @param indent The number of whitespace to print before the content.
      */
     @Override
-    protected void displayMatches(String indent)
+    protected void displayMatches(DisplayFormat display, String indent)
     {
         if(getMatchesCount() > 0)
         {
-            System.out.println(formatName(indent));
+            display.printDirectory(this, indent);
 
             // Recurse into directories
             for(Node dir : this.directories)
             {
-                dir.displayMatches(indent + INDENT);
+                dir.displayMatches(display, indent + INDENT);
             }
 
             // Recurse into files
             for(Node file : files)
             {
-                file.displayMatches(indent + INDENT);
+                file.displayMatches(display, indent + INDENT);
             }
         }
     }
-
-    /**
-     * Formats the name of the directory
-     *
-     * @param indent The number of whitespace to print before the content.
-     * @return formatted string
-     */
-    protected abstract String formatName(String indent);
 
     /**
      * Adds a directory to the Node list
