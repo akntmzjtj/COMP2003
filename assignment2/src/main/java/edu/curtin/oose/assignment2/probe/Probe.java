@@ -1,9 +1,5 @@
 package edu.curtin.oose.assignment2.probe;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +24,6 @@ public class Probe implements DiagnosticObserver
     private double currentLong;
     private ProbeState state;
 
-    private int currentSol;
     private List<Command> commands;
     private List<String> commandHistory;
 
@@ -36,7 +31,6 @@ public class Probe implements DiagnosticObserver
     {
         this.name = name;
         this.state = LOW_POWER_STATE;
-        this.currentSol = 0;
         this.commands = new LinkedList<>();
         this.commandHistory = new LinkedList<>();
 
