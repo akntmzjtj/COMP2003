@@ -16,7 +16,7 @@ import edu.curtin.oose.assignment2.probe.command.Command;
  * It's mainly a simulation and cannot instruct a physical probe to move or to
  * return actual measurements.
  */
-public class Probe implements NextDayObserver, DiagnosticObserver
+public class Probe implements DiagnosticObserver
 {
     // States
     protected static final ProbeState LOW_POWER_STATE = new LowPowerState();
@@ -95,12 +95,6 @@ public class Probe implements NextDayObserver, DiagnosticObserver
         this.commands = commands;
     }
 
-    @Override
-    public void incrementSol()
-    {
-        this.currentSol++;
-    }
-
     public void storeMoves(List<Command> moves)
     {
         // Let current state handle new list of commands
@@ -113,7 +107,7 @@ public class Probe implements NextDayObserver, DiagnosticObserver
         this.state.storeMeasure(this, measureList);
     }
 
-    public void sendCommand()
+    public void sendCommand(int sol)
     {
         // If empty, set to low state mode
         if(this.commands.isEmpty())
@@ -132,7 +126,7 @@ public class Probe implements NextDayObserver, DiagnosticObserver
             c.execute(this);
 
             // Store command
-            this.commandHistory.add(c.save(this.currentSol));
+            this.commandHistory.add(c.save(sol));
         }
     }
 

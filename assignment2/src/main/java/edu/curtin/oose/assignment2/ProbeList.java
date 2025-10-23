@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
-import edu.curtin.oose.assignment2.probe.NextDayObserver;
 import edu.curtin.oose.assignment2.probe.Probe;
 import edu.curtin.oose.assignment2.probe.DiagnosticObserver;
 import edu.curtin.oose.assignment2.probe.command.Command;
@@ -16,14 +15,12 @@ import edu.curtin.oose.assignment2.probe.command.Move;
 public class ProbeList
 {
     private Map<String, Probe> probes;
-    private List<NextDayObserver> nextDayObservers;
     private List<DiagnosticObserver> writeObservers;
     private int currentSol;
 
     public ProbeList()
     {
         this.probes = new HashMap<>();
-        this.nextDayObservers = new LinkedList<>();
         this.writeObservers = new LinkedList<>();
         this.currentSol = 0;
     }
@@ -34,7 +31,6 @@ public class ProbeList
         this.probes.put(name, probe);
 
         // Add as observer
-        this.nextDayObservers.add(probe);
         this.writeObservers.add(probe);
     }
 
@@ -126,12 +122,11 @@ public class ProbeList
     public void sendCommands()
     {
         // Next day for probes
-        notifyNextDay();
         this.currentSol++;
 
         for(Probe p : probes.values())
         {
-            p.sendCommand();
+            p.sendCommand(this.currentSol);
         }
     }
 
@@ -191,14 +186,6 @@ public class ProbeList
         }
 
         return out;
-    }
-
-    private void notifyNextDay()
-    {
-        for(NextDayObserver m : nextDayObservers)
-        {
-            m.incrementSol();
-        }
     }
 
     private void notifyWrite(DiagnosticWriter w)
