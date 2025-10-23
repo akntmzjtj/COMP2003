@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticObserver;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.command.Command;
 
 /**
@@ -59,7 +61,7 @@ public class Probe implements DiagnosticObserver
         return this.state.getState();
     }
 
-    public List<Command> getCommands()
+    protected List<Command> getCommands()
     {
         return Collections.unmodifiableList(this.commands);
     }

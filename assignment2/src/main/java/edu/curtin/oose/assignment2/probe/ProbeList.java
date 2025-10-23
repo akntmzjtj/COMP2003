@@ -1,13 +1,12 @@
-package edu.curtin.oose.assignment2;
+package edu.curtin.oose.assignment2.probe;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
-import edu.curtin.oose.assignment2.probe.Probe;
-import edu.curtin.oose.assignment2.probe.DiagnosticObserver;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticObserver;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.command.Command;
 import edu.curtin.oose.assignment2.probe.command.Measure;
 import edu.curtin.oose.assignment2.probe.command.Move;

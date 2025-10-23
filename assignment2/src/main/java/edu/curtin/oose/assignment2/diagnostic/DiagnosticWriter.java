@@ -1,4 +1,4 @@
-package edu.curtin.oose.assignment2.probe;
+package edu.curtin.oose.assignment2.diagnostic;
 
 import java.io.File;
 import java.io.FileWriter;

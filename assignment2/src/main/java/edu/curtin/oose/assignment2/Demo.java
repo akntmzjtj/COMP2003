@@ -4,10 +4,11 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
 import edu.curtin.oose.assignment2.messageparser.MessageParser;
 import edu.curtin.oose.assignment2.messageparser.MessageParserException;
-import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.Probe;
+import edu.curtin.oose.assignment2.probe.ProbeList;
 
 /**
  * Use this code to get started on Assignment 2. You are free to modify or
@@ -23,10 +24,11 @@ public class Demo
         // number generator
         // inp.setErrorProbability(0.0);
 
-        ProbeList probeList = new ProbeList();
-        MessageParser parser = new MessageParser();
+        // Initialise necessary objects
         Demo marsSciSat = new Demo();
+        ProbeList probeList = new ProbeList();
         List<String> messages = new LinkedList<>();
+        MessageParser parser = new MessageParser();
 
         // Create diagnostic file
         DiagnosticWriter diag = new DiagnosticWriter();
@@ -59,6 +61,7 @@ public class Demo
 
         try
         {
+            // Run loop
             while(System.in.available() == 0)
             {
                 // Wait 1 second

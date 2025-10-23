@@ -3,7 +3,7 @@ package edu.curtin.oose.assignment2.messageparser;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.curtin.oose.assignment2.ProbeList;
+import edu.curtin.oose.assignment2.probe.ProbeList;
 
 public class MessageParser
 {
@@ -158,13 +158,13 @@ public class MessageParser
         }
     }
 
-    private void checkUnnecessaryArgs()
-        throws MessageParserException
+    private void checkUnnecessaryArgs() throws MessageParserException
     {
         // If message contains extra arguments that are not required
         if(this.split.length != 2)
         {
-            throw new MessageParserException("Message contains unnecessary arguments.");
+            throw new MessageParserException(
+                "Message contains unnecessary arguments.");
         }
     }
 }
