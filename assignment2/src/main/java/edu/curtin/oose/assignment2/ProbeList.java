@@ -29,9 +29,21 @@ public class ProbeList
     {
         // Add new probe
         this.probes.put(name, probe);
+    }
 
-        // Add as observer
-        this.writeObservers.add(probe);
+    public void addDiagnosticObserver(DiagnosticObserver observer)
+    {
+        this.writeObservers.add(observer);
+    }
+
+    public void removeDiagnosticObserver(DiagnosticObserver observer)
+    {
+        this.writeObservers.remove(observer);
+    }
+
+    public boolean hasProbe(String probeName)
+    {
+        return this.probes.containsKey(probeName);
     }
 
     public void instructMove(String probeName, double newLat, double newLongi)

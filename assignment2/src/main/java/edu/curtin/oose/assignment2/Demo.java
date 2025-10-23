@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.curtin.oose.assignment2.messageparser.MessageParser;
+import edu.curtin.oose.assignment2.messageparser.MessageParserException;
 import edu.curtin.oose.assignment2.probe.DiagnosticWriter;
 import edu.curtin.oose.assignment2.probe.Probe;
 
@@ -22,8 +24,9 @@ public class Demo
         // inp.setErrorProbability(0.0);
 
         ProbeList probeList = new ProbeList();
+        MessageParser parser = new MessageParser();
         Demo marsSciSat = new Demo();
-        LinkedList<String> messages = new LinkedList<>();
+        List<String> messages = new LinkedList<>();
 
         // Create diagnostic file
         DiagnosticWriter diag = new DiagnosticWriter();
@@ -46,6 +49,9 @@ public class Demo
             // Add probe to satellite
             Probe p = new Probe(probeName, lat, longi);
             probeList.addProbe(probeName, p);
+
+            // Add probe as observer
+            probeList.addDiagnosticObserver(p);
         }
 
         // Clear messages
@@ -70,7 +76,10 @@ public class Demo
                 // Parse the messages
                 for(String m : messages)
                 {
-                    marsSciSat.parseMessage(m, probeList);
+                    // Print message from Earth
+                    System.out.println("\033[34;1m" + m + "\033[m");
+
+                    marsSciSat.parseMessage(m, probeList, parser);
                 }
 
                 // Clear list
@@ -93,7 +102,7 @@ public class Demo
     {
     }
 
-    public void getMessages(LinkedList<String> messages, CommsGenerator comm)
+    public void getMessages(List<String> messages, CommsGenerator comm)
     {
         // Grab initial message
         System.out.println("---");
@@ -101,9 +110,6 @@ public class Demo
 
         while(msg != null)
         {
-            // Print message from Earth
-            System.out.println("\033[34;1m" + msg + "\033[m");
-
             // Add messages to list
             messages.add(msg);
 
@@ -114,46 +120,26 @@ public class Demo
         System.out.println("---");
     }
 
-    public void parseMessage(String message, ProbeList probeList)
+    public void parseMessage(
+        String message, ProbeList probeList, MessageParser parser
+    )
     {
-        // Split message
-        String[] messageSplit = message.split(" ");
-
-        // Format
-        String probeName = messageSplit[0];
-        String command = messageSplit[1];
-
-        switch (command)
+        try
         {
-            case "status":
-                probeList.getProbeStatus(probeName);
-                break;
-            case "move":
-                if(messageSplit.length == 4)
-                {
-                    double newLat = Double.parseDouble(messageSplit[2]);
-                    double newLong = Double.parseDouble(messageSplit[3]);
-                    probeList.instructMove(probeName, newLat, newLong);
-                }
-                break;
-            case "measure":
-                // Quantities to be measured after first two elements
-                List<String> quantities = new LinkedList<>();
+            // Split message
+            parser.splitMessage(message);
 
-                for(int i = 2; i < messageSplit.length - 1; i++)
-                {
-                    quantities.add(messageSplit[i]);
-                }
+            // Send message to satellite
+            parser.sendToSatellite(probeList);
+        }
+        catch(MessageParserException mpe)
+        {
+            // Format error
+            String errorMessage = "TO EARTH: MESSAGE ERROR \"" + mpe
+                .getMessage() + "\"";
 
-                // Total number of commands
-                int num = Integer.parseInt(messageSplit[messageSplit.length
-                    - 1]);
-                probeList.instructMeasure(probeName, quantities, num);
-
-                break;
-            case "history":
-                probeList.getProbeHistory(probeName);
-                break;
+            // Simply print error to screen (red)
+            System.out.println("\033[31;1m" + errorMessage + "\033[m");
         }
     }
 }
