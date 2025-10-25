@@ -9,14 +9,16 @@ import edu.curtin.oose.assignment2.probe.Probe;
 
 public class Measure implements Command
 {
+    // Random object used to simulate measurements
+    private static final Random RANDOM = new Random();
+
     private List<String> data;
-    private Random random; // use random values to simulate measure
+    // private Random random; // use random values to simulate measure
     private String measurements;
 
     public Measure(List<String> quantities)
     {
         this.data = new LinkedList<>(quantities);
-        this.random = new Random();
         this.measurements = null;
     }
 
@@ -69,13 +71,13 @@ public class Measure implements Command
         // Store data into temp list
         List<String> temp = new LinkedList<>(this.data);
 
-        String randDouble = String.format("%.4f", this.random.nextDouble(1));
+        String randDouble = String.format("%.4f", Measure.RANDOM.nextDouble(1));
         this.measurements = temp.removeFirst().toUpperCase() + "=" + randDouble;
 
         // Repeat above
         for(String s : temp)
         {
-            randDouble = String.format("%.4f", this.random.nextDouble(1));
+            randDouble = String.format("%.4f", Measure.RANDOM.nextDouble(1));
             this.measurements += " " + s.toUpperCase() + "=" + randDouble;
         }
     }
