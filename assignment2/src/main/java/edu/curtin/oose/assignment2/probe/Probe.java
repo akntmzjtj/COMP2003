@@ -31,6 +31,15 @@ public class Probe implements DiagnosticObserver
 
     public Probe(String name, double lat, double longi)
     {
+        if(name == null)
+        {
+            throw new IllegalArgumentException("Name provided is null.");
+        }
+        if(name.isBlank())
+        {
+            throw new IllegalArgumentException("Name provided is blank.");
+        }
+
         this.name = name;
         this.state = LOW_POWER_STATE;
         this.commands = new LinkedList<>();
@@ -93,12 +102,30 @@ public class Probe implements DiagnosticObserver
 
     public void storeMoves(List<Command> moves)
     {
+        if(moves == null)
+        {
+            throw new IllegalArgumentException("Parameter is null.");
+        }
+        if(moves.contains(null))
+        {
+            throw new IllegalArgumentException("List contains null.");
+        }
+
         // Let current state handle new list of commands
         this.state.storeMoves(this, moves);
     }
 
     public void storeMeasure(List<Command> measureList)
     {
+        if(measureList == null)
+        {
+            throw new IllegalArgumentException("Parameter is null.");
+        }
+        if(measureList.contains(null))
+        {
+            throw new IllegalArgumentException("List contains null.");
+        }
+
         // Let current state handle new list of commands
         this.state.storeMeasure(this, measureList);
     }
