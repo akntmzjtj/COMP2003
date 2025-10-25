@@ -47,24 +47,21 @@ public class ProbeList
 
     public void instructMove(String probeName, double newLat, double newLongi)
     {
-        // Check if probeName is rover or drone
-        double maxDegree = 0;
-        if(probeName.contains("rover"))
+        Probe probe = probes.get(probeName);
+
+        if(probe == null)
         {
-            maxDegree = 0.004;
-        }
-        else if(probeName.contains("drone"))
-        {
-            maxDegree = 0.018;
+            // TODO: Throw exception
+            // throw new Exception("Probe not found");
+            System.out.println("Probe not found");
         }
 
-        Probe probe = probes.get(probeName);
         double lat = probe.getLattitude();
         double longi = probe.getLongitude();
 
         // Calculate move commands
         List<Command> moves = generateMoveCommands(lat, longi, newLat, newLongi,
-            maxDegree);
+            probe.getMaxDistance());
 
         // Send move commands to probe
         probe.storeMoves(moves);
@@ -151,7 +148,7 @@ public class ProbeList
 
     private List<Command> generateMoveCommands(
         double currentLat, double currentLong, double targetLat,
-        double targetLong, double maxDegree
+        double targetLong, double maxDistance
     )
     {
         // calculate difference for lattitude and longitude
@@ -162,26 +159,27 @@ public class ProbeList
         double distance = Math.sqrt((distanceLat * distanceLat) + (distanceLong
             * distanceLong));
 
-        // number of max degree movements
-        int maxNum = (int)(distance / maxDegree);
+        // number of max distance movements
+        int maxNum = (int)(distance / maxDistance);
 
         // find angle (adj = lattitude axis)
         double angle = Math.acos(distanceLat / distance);
 
-        double maxDegreeLat = Math.cos(angle) * maxDegree;
-        double maxDegreeLong = Math.sin(angle) * maxDegree;
+        double maxDistanceLat = Math.cos(angle) * maxDistance;
+        double maxDistanceLong = Math.sin(angle) * maxDistance;
 
-        // remainder degree movement
-        double finalDegreeLat = Math.cos(angle) * (distance % maxDegree);
-        double finalDegreeLong = Math.sin(angle) * (distance % maxDegree);
+        // remainder of movement
+        double finalLat = Math.cos(angle) * (distance % maxDistance);
+        double finalLong = Math.sin(angle) * (distance % maxDistance);
 
         List<Command> out = new LinkedList<>();
         for(int i = 0; i < maxNum; i++)
         {
-            out.add(new Move(maxDegreeLat, maxDegreeLong));
+            out.add(new Move(maxDistanceLat, maxDistanceLong));
         }
 
-        out.add(new Move(finalDegreeLat, finalDegreeLong));
+        // Remainder move instruction
+        out.add(new Move(finalLat, finalLong));
 
         return out;
     }

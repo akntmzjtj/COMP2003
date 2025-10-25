@@ -24,12 +24,14 @@ public class Probe implements DiagnosticObserver
     private String name;
     private double currentLat;
     private double currentLong;
+    private final double maxDistance; // max travel distance per move
+                                      // instruction
     private ProbeState state;
 
     private List<Command> commands;
     private List<String> commandHistory;
 
-    public Probe(String name, double lat, double longi)
+    public Probe(String name, double lat, double longi, double maxDistance)
     {
         if(name == null)
         {
@@ -40,6 +42,12 @@ public class Probe implements DiagnosticObserver
             throw new IllegalArgumentException("Name provided is blank.");
         }
 
+        if(maxDistance <= 0)
+        {
+            throw new IllegalArgumentException(
+                "Max travel distance provided is less than or equal to zero.");
+        }
+
         this.name = name;
         this.state = LOW_POWER_STATE;
         this.commands = new LinkedList<>();
@@ -48,6 +56,7 @@ public class Probe implements DiagnosticObserver
         // set current coordinates
         this.currentLat = lat;
         this.currentLong = longi;
+        this.maxDistance = maxDistance;
     }
 
     public String getName()
@@ -63,6 +72,11 @@ public class Probe implements DiagnosticObserver
     public double getLongitude()
     {
         return currentLong;
+    }
+
+    public double getMaxDistance()
+    {
+        return this.maxDistance;
     }
 
     public String getState()

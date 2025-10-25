@@ -17,6 +17,9 @@ import edu.curtin.oose.assignment2.probe.ProbeList;
  */
 public class Demo
 {
+    private static final double MAX_DISTANCE_ROVER = 0.004;
+    private static final double MAX_DISTANCE_DRONE = 0.018;
+
     public static void main(String[] args)
     {
         // CommsGenerator inp = new CommsGenerator();
@@ -48,8 +51,18 @@ public class Demo
             double lat = Double.parseDouble(tempSplit[2]);
             double longi = Double.parseDouble(tempSplit[3]);
 
+            double maxDistance = Double.NEGATIVE_INFINITY;
+            if(probeName.contains("drone"))
+            {
+                maxDistance = MAX_DISTANCE_DRONE;
+            }
+            else if(probeName.contains("rover"))
+            {
+                maxDistance = MAX_DISTANCE_ROVER;
+            }
+
             // Add probe to satellite
-            Probe p = new Probe(probeName, lat, longi);
+            Probe p = new Probe(probeName, lat, longi, maxDistance);
             probeList.addProbe(probeName, p);
 
             // Add probe as observer
