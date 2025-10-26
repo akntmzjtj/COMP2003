@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.curtin.oose.assignment2.probe.ProbeList;
+import edu.curtin.oose.assignment2.probe.ProbeListException;
 
 public class MessageParser
 {
@@ -68,14 +69,10 @@ public class MessageParser
                 parseMeasureMessage(probeList);
                 break;
             case "status":
-                checkUnnecessaryArgs(); // throws exception
-
-                probeList.getProbeStatus(this.probeName);
+                parseStatusMessage(probeList);
                 break;
             case "history":
-                checkUnnecessaryArgs(); // throws exception
-
-                probeList.getProbeHistory(this.probeName);
+                parseHistoryMessage(probeList);
                 break;
             default:
                 throw new MessageParserException("Instruction does not exist.");
@@ -116,6 +113,11 @@ public class MessageParser
                 "Move instruction is invalid. Coordinates could not be casted into a number.",
                 nfe);
         }
+        catch(ProbeListException ple)
+        {
+            // Probe could not be found in list anyway
+            throw new MessageParserException(ple.getMessage(), ple);
+        }
     }
 
     private void parseMeasureMessage(ProbeList probeList)
@@ -155,6 +157,43 @@ public class MessageParser
             throw new MessageParserException(
                 "Measure instruction is invalid. Must provide number of days.",
                 nfe);
+        }
+        catch(ProbeListException ple)
+        {
+            // Probe could not be found in list anyway
+            throw new MessageParserException(ple.getMessage(), ple);
+        }
+    }
+
+    private void parseStatusMessage(ProbeList probeList)
+        throws MessageParserException
+    {
+        checkUnnecessaryArgs(); // throws exception
+
+        try
+        {
+            probeList.printProbeStatus(this.probeName);
+        }
+        catch(ProbeListException ple)
+        {
+            // Probe could not be found
+            throw new MessageParserException(ple.getMessage(), ple);
+        }
+    }
+
+    private void parseHistoryMessage(ProbeList probeList)
+        throws MessageParserException
+    {
+        checkUnnecessaryArgs(); // throws exception
+
+        try
+        {
+            probeList.printProbeHistory(this.probeName);
+        }
+        catch(ProbeListException ple)
+        {
+            // Probe could not be found in list anyway
+            throw new MessageParserException(ple.getMessage(), ple);
         }
     }
 
