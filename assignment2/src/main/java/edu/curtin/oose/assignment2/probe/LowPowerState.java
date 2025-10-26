@@ -7,12 +7,6 @@ import edu.curtin.oose.assignment2.probe.command.Command;
 public class LowPowerState implements ProbeState
 {
     @Override
-    public String getState()
-    {
-        return "LOW POWER MODE";
-    }
-
-    @Override
     public void storeMoves(Probe probe, List<Command> moves)
     {
         // Check if commands list has any commands
@@ -44,5 +38,11 @@ public class LowPowerState implements ProbeState
 
         // Update state
         probe.setState(Probe.MEASURING_STATE);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "LOW POWER MODE";
     }
 }

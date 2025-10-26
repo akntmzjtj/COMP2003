@@ -113,13 +113,13 @@ public class Probe implements DiagnosticObserver
     }
 
     /**
-     * Protected getter for probe's current state.
+     * Getter for a probe's current status (simulation).
      *
-     * @return state but String
+     * @return Status of probe
      */
-    protected String getState()
+    protected String getStatus()
     {
-        return this.state.getState();
+        return this.status();
     }
 
     /**
@@ -274,8 +274,17 @@ public class Probe implements DiagnosticObserver
     public void write(DiagnosticWriter w)
     {
         // Append status
-        String s = String.format("    %s at %.6f %.6f, %s\n", this.name
-            .toUpperCase(), this.lat, this.longi, this.getState());
-        w.append(s);
+        w.append("   " + this.status());
+    }
+
+    /**
+     * Formats name, current coordinates and state into a String.
+     *
+     * @return Status of probe
+     */
+    private String status()
+    {
+        return String.format("%s at %.6f %.6f, %s\n", this.name.toUpperCase(),
+            this.lat, this.longi, this.state);
     }
 }

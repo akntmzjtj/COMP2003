@@ -98,8 +98,7 @@ public class ProbeList
         }
 
         // Print status
-        System.out.printf("TO EARTH: %s at %.6f %.6f, %s\n", p.getName()
-            .toUpperCase(), p.getLattitude(), p.getLongitude(), p.getState());
+        System.out.printf("TO EARTH: %s", p.getStatus());
     }
 
     public void getProbeHistory(String probeName)

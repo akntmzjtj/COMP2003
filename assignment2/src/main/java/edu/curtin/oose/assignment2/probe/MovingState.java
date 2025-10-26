@@ -7,12 +7,6 @@ import edu.curtin.oose.assignment2.probe.command.Command;
 public class MovingState implements ProbeState
 {
     @Override
-    public String getState()
-    {
-        return "MOVING";
-    }
-
-    @Override
     public void storeMoves(Probe probe, List<Command> moves)
     {
         // Set probe's commands
@@ -27,5 +21,11 @@ public class MovingState implements ProbeState
 
         // Update state
         probe.setState(Probe.MEASURING_STATE);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MOVING";
     }
 }
