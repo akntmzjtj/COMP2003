@@ -4,8 +4,19 @@ import java.util.List;
 
 import edu.curtin.oose.assignment2.probe.command.Command;
 
+/**
+ * Implementation of ProbeState interface.
+ *
+ * @author Joshua Orbon 20636948
+ */
 public class MovingState implements ProbeState
 {
+    /**
+     * Handles how the List of move commands are stored.
+     *
+     * @param probe The Probe object that has delegated the task to the state
+     * @param moves List of Command objects
+     */
     @Override
     public void storeMoves(Probe probe, List<Command> moves)
     {
@@ -13,6 +24,13 @@ public class MovingState implements ProbeState
         probe.setCommands(moves);
     }
 
+    /**
+     * Handles how the List of measure commands are stored.
+     *
+     * @param probe       The Probe object that has delegated the task to the
+     *                    state
+     * @param measureList List of Command objects
+     */
     @Override
     public void storeMeasure(Probe probe, List<Command> measureList)
     {
