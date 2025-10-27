@@ -118,7 +118,7 @@ public class Probe implements DiagnosticObserver
      *
      * @return Status of probe
      */
-    protected String getStatus()
+    public String getStatus()
     {
         return this.status();
     }
@@ -128,7 +128,7 @@ public class Probe implements DiagnosticObserver
      *
      * @return List of Command objects
      */
-    protected List<Command> getCommands()
+    public List<Command> getCommands()
     {
         return Collections.unmodifiableList(this.commands);
     }
