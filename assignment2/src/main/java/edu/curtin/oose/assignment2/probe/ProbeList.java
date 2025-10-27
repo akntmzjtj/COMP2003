@@ -92,7 +92,7 @@ public class ProbeList
      * Instructs given probe to a new coordinate.
      *
      * @param probeName Name of probe
-     * @param newLat    New lattitude
+     * @param newLat    New latitude
      * @param newLongi  New longitude
      * @throws ProbeListException when probe is not in map
      */
@@ -105,7 +105,7 @@ public class ProbeList
             throw new ProbeListException("Probe not found.");
         }
 
-        double lat = probe.getLattitude();
+        double lat = probe.getLatitude();
         double longi = probe.getLongitude();
 
         // Calculate move commands
@@ -230,9 +230,9 @@ public class ProbeList
     /**
      * Generate the Move objects to be stored in a Probe object.
      *
-     * @param currentLat  Probe's current lattitude
+     * @param currentLat  Probe's current latitude
      * @param currentLong Probe's current longitude
-     * @param targetLat   Probe's target lattitude
+     * @param targetLat   Probe's target latitude
      * @param targetLong  Probe's target longitude
      * @param maxDistance Probe's max distance it can travel in a day
      * @return List of Command objects (Move)
@@ -242,7 +242,7 @@ public class ProbeList
         double targetLong, double maxDistance
     )
     {
-        // calculate difference for lattitude and longitude
+        // calculate difference for latitude and longitude
         double distanceLat = targetLat - currentLat;
         double distanceLong = targetLong - currentLong;
 
@@ -253,7 +253,7 @@ public class ProbeList
         // number of max distance movements
         int maxNum = (int)(distance / maxDistance);
 
-        // find angle (adj = lattitude axis)
+        // find angle (adj = latitude axis)
         double angle = Math.acos(distanceLat / distance);
 
         double maxDistanceLat = Math.cos(angle) * maxDistance;

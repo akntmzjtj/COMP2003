@@ -248,7 +248,7 @@ public class MarsSciSat
             System.out.println("\033[31;1m" + errorMessage + "\033[m");
 
             // Log exception
-            logger.warning("Generated message '" + message
+            logger.warning(() -> "Generated message '" + message
                 + "' could not be parsed.\n" + mpe);
         }
     }

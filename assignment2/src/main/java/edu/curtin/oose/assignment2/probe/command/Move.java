@@ -20,7 +20,7 @@ public class Move implements Command
     /**
      * Constructor for Move instances.
      *
-     * @param lat   Lattitude
+     * @param lat   Latitude
      * @param longi Longitude
      */
     public Move(double lat, double longi)
@@ -66,10 +66,10 @@ public class Move implements Command
         }
 
         // Move probe (simulation)
-        double newLat = probe.getLattitude() + this.lat;
+        double newLat = probe.getLatitude() + this.lat;
         double newLongi = probe.getLongitude() + this.longi;
 
-        probe.setLattitude(newLat);
+        probe.setLatitude(newLat);
         probe.setLongitude(newLongi);
     }
 

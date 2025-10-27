@@ -125,7 +125,7 @@ public class MessageParser
         // Format:
         // split[0]: probe name
         // split[1]: "move"
-        // split[2]: lattitude (number)
+        // split[2]: latitude (number)
         // split[3]: longitude (number)
         if(this.split.length != 4)
         {

@@ -38,7 +38,7 @@ public class Probe implements DiagnosticObserver
      * Constructor for Probe.
      *
      * @param name        Name of the probe
-     * @param lat         Initial lattitude of probe
+     * @param lat         Initial latitude of probe
      * @param longi       Initial longitude of probe
      * @param maxDistance Max distance a probe can travel per sol
      * @throws IllegalArgumentException When name provided is null or blank,
@@ -84,11 +84,11 @@ public class Probe implements DiagnosticObserver
     }
 
     /**
-     * Getter for probe's current lattitude.
+     * Getter for probe's current latitude.
      *
      * @return lat
      */
-    public double getLattitude()
+    public double getLatitude()
     {
         return lat;
     }
@@ -144,11 +144,11 @@ public class Probe implements DiagnosticObserver
     }
 
     /**
-     * Setter for probe's lattitude.
+     * Setter for probe's latitude.
      *
-     * @param lat New lattitude
+     * @param lat New latitude
      */
-    public void setLattitude(double lat)
+    public void setLatitude(double lat)
     {
         this.lat = lat;
     }
