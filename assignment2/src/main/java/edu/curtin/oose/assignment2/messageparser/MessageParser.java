@@ -6,11 +6,19 @@ import java.util.List;
 import edu.curtin.oose.assignment2.probe.ProbeList;
 import edu.curtin.oose.assignment2.probe.ProbeListException;
 
+/**
+ * MessageParser handles the parsing of messages being sent from Earth to the
+ * satellite (simulation). Once parsed, the probes can then be instructed by the
+ * satellite.
+ */
 public class MessageParser
 {
     private String[] split;
     private String probeName;
 
+    /**
+     * Constructor for MessageParser.
+     */
     public MessageParser()
     {
         this.split = null;
@@ -18,10 +26,11 @@ public class MessageParser
     }
 
     /**
-     * Splits message into array
+     * Splits message into array and then initialises MessageParser object if
+     * length is above minimum.
      *
      * @param message Message to be split
-     * @throws MessageParserException
+     * @throws MessageParserException when length is below minimum
      */
     public void splitMessage(String message) throws MessageParserException
     {
@@ -43,6 +52,14 @@ public class MessageParser
         this.probeName = this.split[0];
     }
 
+    /**
+     * Parses the message and sends to the satellite (simulation).
+     *
+     * @param probeList Object that handles all probes.
+     * @throws IllegalStateException  when message has not been split
+     * @throws MessageParserException when probeName does not exist or
+     *                                instruction is invalid.
+     */
     public void sendToSatellite(ProbeList probeList)
         throws MessageParserException
     {
@@ -83,6 +100,14 @@ public class MessageParser
         this.probeName = null;
     }
 
+    /**
+     * Parses a move message from Earth.
+     *
+     * @param probeList Object that handles all probes.
+     * @throws MessageParserException message is not in appropriate format,
+     *                                numbers could not be converted or probe
+     *                                could not be found
+     */
     private void parseMoveMessage(ProbeList probeList)
         throws MessageParserException
     {
@@ -120,6 +145,14 @@ public class MessageParser
         }
     }
 
+    /**
+     * Parses a measure message from Earth.
+     *
+     * @param probeList Object that handles all probes.
+     * @throws MessageParserException when message not in appropriate format,
+     *                                number could not be casted and probe could
+     *                                not be found
+     */
     private void parseMeasureMessage(ProbeList probeList)
         throws MessageParserException
     {
@@ -165,6 +198,13 @@ public class MessageParser
         }
     }
 
+    /**
+     * Parses status message from Eerth.
+     *
+     * @param probeList Object that handles all probes.
+     * @throws MessageParserException when message has unnecessary arguments or
+     *                                probe could not be found.
+     */
     private void parseStatusMessage(ProbeList probeList)
         throws MessageParserException
     {
@@ -181,6 +221,13 @@ public class MessageParser
         }
     }
 
+    /**
+     * Parse history message from Earth.
+     *
+     * @param probeList Object that handles all probes.
+     * @throws MessageParserException when message has unnecessary arguments or
+     *                                probe could not be found.
+     */
     private void parseHistoryMessage(ProbeList probeList)
         throws MessageParserException
     {
@@ -197,6 +244,12 @@ public class MessageParser
         }
     }
 
+    /**
+     * Checks whether the message contains more arguments than required.
+     *
+     * @throws MessageParserException when message does not have required length
+     *                                when split
+     */
     private void checkUnnecessaryArgs() throws MessageParserException
     {
         // If message contains extra arguments that are not required
