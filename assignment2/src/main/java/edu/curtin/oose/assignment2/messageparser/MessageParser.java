@@ -30,10 +30,21 @@ public class MessageParser
      * length is above minimum.
      *
      * @param message Message to be split
-     * @throws MessageParserException when length is below minimum
+     * @throws IllegalArgumentException when message is null
+     * @throws MessageParserException   when length is below minimum
      */
     public void splitMessage(String message) throws MessageParserException
     {
+        if(message == null)
+        {
+            throw new IllegalArgumentException("Parameter is null.");
+        }
+        if(message.isBlank())
+        {
+            // Let program handle blank messages from Earth
+            throw new MessageParserException("Parameter is blank.");
+        }
+
         String[] temp = message.split(" ");
 
         // Array requires at least two elements

@@ -14,7 +14,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'edu.curtin.oose.assignment2.Demo'
+    mainClass = 'edu.curtin.oose.assignment2.MarsSciSat'
 }
 
 compileJava {
