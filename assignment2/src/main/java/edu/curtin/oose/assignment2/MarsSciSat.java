@@ -3,6 +3,7 @@ package edu.curtin.oose.assignment2;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriterException;
@@ -20,6 +21,8 @@ import edu.curtin.oose.assignment2.probe.ProbeListFactory;
  */
 public class MarsSciSat
 {
+    private static Logger logger = Logger.getLogger(MarsSciSat.class.getName());
+
     private static final double MAX_DISTANCE_ROVER = 0.004;
     private static final double MAX_DISTANCE_DRONE = 0.018;
 
@@ -41,6 +44,8 @@ public class MarsSciSat
         catch(DiagnosticWriterException dwe)
         {
             System.out.println(dwe.getMessage());
+            logger.severe(() -> "File for diagnostics file was not created.\n"
+                + dwe);
         }
 
         // Grab locations of listed probes
@@ -50,11 +55,15 @@ public class MarsSciSat
         List<Probe> probes = new LinkedList<>();
         marsSciSat.initialiseProbes(probes, messages);
 
+        logger.info(() -> "Probes to be instructed have been gathered.");
+
         // Clear messages
         messages.clear();
 
         // Create ProbeList object and list of probes
         ProbeList probeList = new ProbeListFactory().createProbeList(probes);
+
+        logger.info(() -> "Probes now stored in ProbeList object.");
 
         // Add observers
         for(Probe p : probes)
@@ -62,10 +71,14 @@ public class MarsSciSat
             probeList.addDiagnosticObserver(p);
         }
 
+        logger.info(() -> "Added observers to ProbeList.");
+
         // Run loop
         MessageParser parser = new MessageParser();
         try
         {
+            logger.info(() -> "Now running event loop");
+
             // Run loop
             while(System.in.available() == 0)
             {
@@ -109,10 +122,15 @@ public class MarsSciSat
         catch(IOException e)
         {
             System.out.println("Error reading user input.");
+
+            logger.severe(() -> "Program terminated due to I/O error.\n" + e);
+            // Terminate program
         }
         catch(DiagnosticWriterException dwe)
         {
             System.out.println(dwe.getMessage());
+
+            logger.severe(() -> "Diagnostics could not be written.\n" + dwe);
             // Terminate program
         }
     }
@@ -182,6 +200,9 @@ public class MarsSciSat
     {
         if(!messages.isEmpty())
         {
+            logger.severe(
+                () -> "Messages were not cleared prior to running this function.");
+
             throw new IllegalStateException("Messages were not cleared.");
         }
 
@@ -194,6 +215,8 @@ public class MarsSciSat
             // Grab next message
             msg = comm.nextMessage();
         }
+
+        logger.info(() -> "Messages generated and stored.");
     }
 
     /**
@@ -223,6 +246,10 @@ public class MarsSciSat
 
             // Simply print error to screen (red)
             System.out.println("\033[31;1m" + errorMessage + "\033[m");
+
+            // Log exception
+            logger.warning("Generated message '" + message
+                + "' could not be parsed.\n" + mpe);
         }
     }
 }
