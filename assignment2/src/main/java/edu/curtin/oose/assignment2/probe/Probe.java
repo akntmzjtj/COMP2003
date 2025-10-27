@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticObserver;
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriterException;
 import edu.curtin.oose.assignment2.probe.command.Command;
 
 /**
@@ -271,7 +272,7 @@ public class Probe implements DiagnosticObserver
      * @param w DiagnosticWriter object, handles writing of String
      */
     @Override
-    public void write(DiagnosticWriter w)
+    public void write(DiagnosticWriter w) throws DiagnosticWriterException
     {
         // Append status
         w.append("   " + this.status());

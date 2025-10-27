@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriterException;
 import edu.curtin.oose.assignment2.messageparser.MessageParser;
 import edu.curtin.oose.assignment2.messageparser.MessageParserException;
 import edu.curtin.oose.assignment2.probe.Probe;
@@ -35,7 +36,14 @@ public class Demo
 
         // Create diagnostic file
         DiagnosticWriter diag = new DiagnosticWriter();
-        diag.createFile();
+        try
+        {
+            diag.createFile();
+        }
+        catch(DiagnosticWriterException dwe)
+        {
+            System.out.println(dwe.getMessage());
+        }
 
         // Grab locations of listed probes
         marsSciSat.getMessages(messages, inp);
@@ -110,7 +118,12 @@ public class Demo
         }
         catch(IOException e)
         {
-            System.out.println("Error reading user input");
+            System.out.println("Error reading user input.");
+        }
+        catch(DiagnosticWriterException dwe)
+        {
+            System.out.println(dwe.getMessage());
+            // Terminate program
         }
     }
 

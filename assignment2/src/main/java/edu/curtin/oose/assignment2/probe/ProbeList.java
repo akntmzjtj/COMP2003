@@ -7,6 +7,7 @@ import java.util.Map;
 
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticObserver;
 import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriter;
+import edu.curtin.oose.assignment2.diagnostic.DiagnosticWriterException;
 import edu.curtin.oose.assignment2.probe.command.Command;
 import edu.curtin.oose.assignment2.probe.command.Measure;
 import edu.curtin.oose.assignment2.probe.command.Move;
@@ -213,6 +214,7 @@ public class ProbeList
      * @param w DiagnosticWriter object, handles writing the string
      */
     public void writeDiagnostics(DiagnosticWriter w)
+        throws DiagnosticWriterException
     {
         if(w == null)
         {
@@ -311,6 +313,7 @@ public class ProbeList
      * @param w DiagnosticWriter object, writes diagnostics
      */
     private void notifyWrite(DiagnosticWriter w)
+        throws DiagnosticWriterException
     {
         // addDiagnosticWriter handles null but just in case
         if(this.writeObservers.contains(null))
