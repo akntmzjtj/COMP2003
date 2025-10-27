@@ -37,11 +37,10 @@ public class ProbeList
     /**
      * Adds probe to map.
      *
-     * @param name  Name of probe
      * @param probe Probe object
      * @throws IllegalArgumentException when Probe object is null
      */
-    public void addProbe(String name, Probe probe)
+    public void addProbe(Probe probe)
     {
         if(probe == null)
         {
@@ -49,7 +48,7 @@ public class ProbeList
         }
 
         // Add new probe
-        this.probes.put(name, probe);
+        this.probes.put(probe.getName(), probe);
     }
 
     /**
